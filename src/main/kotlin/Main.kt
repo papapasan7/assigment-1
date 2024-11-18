@@ -21,14 +21,14 @@ fun main() {
 fun mainMenu(): Int {
     print(""" 
          > ----------------------------------
-         > |            |
+         > |                                |
          > ----------------------------------
          > | NOTE MENU                      |
          > |   1) Add product               |
          > |   2)List product
          >               
-         >    6) Add order               |
-         > |   7)List orders     |
+         >    6) Add order                  |
+         > |   7)List orders                |
          > |   
          > ----------------------------------
          > |   0) Exit                      |
