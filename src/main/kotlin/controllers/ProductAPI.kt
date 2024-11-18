@@ -1,7 +1,6 @@
 package ie.setu.controllers
-import Product
-
-class ProductAPI {
+import ie.setu.models.Product
+class ProductAPI (private val OrderAPI: OrderAPI){
     private val products = mutableListOf<Product>()
     private var idGen :Int = 0;
 
