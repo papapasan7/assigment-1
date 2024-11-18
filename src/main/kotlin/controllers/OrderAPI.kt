@@ -1,14 +1,23 @@
 package ie.setu.controllers
-import Order
+import ie.setu.models.Order
 
 class OrderAPI {
     private val orders = mutableListOf<Order>()
     private var idGen :Int = 0;
 
-    fun idCreate() = idGen+1
+    fun idCreate() = idGen++
 
-    fun addOrder(order: Order) {
+    fun addOrder(order: Order) :Boolean{
         order.orderID = idCreate()
-        orders.add(order)
+       return orders.add(order)
     }
+
+    fun showOrder()=
+        if (orders.isEmpty())
+            "No notes stored"
+        else
+            orders.joinToString(separator = "\n"){order ->
+                orders.indexOf(order).toString() +": "+order.toString() }
+
 }
+
