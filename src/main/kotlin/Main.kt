@@ -55,23 +55,36 @@ fun runMenu() {
 }
 
 fun addProduct(){
-    println("Enter product name: ")
+    println("How many product do u need to add: ")
     scanner.nextLine()
-    val productName = scanner.nextLine() // Correctly reads the product name
-    println("Enter memory size: ")
-    val memorySize = scanner.nextInt()
-    scanner.nextLine() // Clear the newline character after entering the integer
-    println("Enter price: ")
-    val price = scanner.nextDouble()
-    scanner.nextLine() // Clear the newline character after entering the double
+    val count = scanner.nextInt()
 
-    val isAdd = ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
-    if (isAdd) {
-        println("Product added successfully!")
+
+    if (count <= 0) {
+        println("Number of products must be greater than 0.")
+        return
     }
-    else
-    {
-        println("Product add failed!")
+    else {
+
+        println("Enter product name: ")
+        scanner.nextLine()
+        val productName = scanner.nextLine() // Correctly reads the product name
+        println("Enter memory size: ")
+        val memorySize = scanner.nextInt()
+        scanner.nextLine() // Clear the newline character after entering the integer
+        println("Enter price: ")
+        val price = scanner.nextDouble()
+        scanner.nextLine() // Clear the newline character after entering the double
+            repeat(count)  {
+
+
+                val isAdd = ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
+                if (isAdd) {
+                    println("Product added successfully!")
+                } else {
+                    println("Product add failed!")
+                }
+            }
     }
 }
 
