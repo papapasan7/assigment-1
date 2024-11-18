@@ -6,9 +6,9 @@ class ProductAPI (private val OrderAPI: OrderAPI){
 
     fun idCreate() = idGen++
 
-    fun addProduct(product: Product) {
+    fun addProduct(product: Product): Boolean  {
         product.productID = idCreate()
-        products.add(product)
+        return products.add(product)
     }
 
     fun showProduct()=
