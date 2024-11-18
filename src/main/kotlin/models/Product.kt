@@ -3,5 +3,5 @@ data class Product(
     val productName: String,
     val memorySize: Int,
     val price :Double,
-   var  orderID:Int)
+   var  orderID:Int = -1)
 
