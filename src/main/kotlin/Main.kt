@@ -23,7 +23,7 @@ fun mainMenu(): Int {
          > ----------------------------------
          > |                                |
          > ----------------------------------
-         > | NOTE MENU                      |
+         > | Online shop MENU               |
          > |   1) Add product               |
          > |   2)List product
          >               
