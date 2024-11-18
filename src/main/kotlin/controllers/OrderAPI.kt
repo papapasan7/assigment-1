@@ -11,4 +11,13 @@ class OrderAPI {
         order.orderID = idCreate()
         orders.add(order)
     }
+
+    fun showOrder()=
+        if (orders.isEmpty())
+            "No notes stored"
+        else
+            orders.joinToString(separator = "\n"){order ->
+                orders.indexOf(order).toString() +": "+order.toString() }
+
 }
+

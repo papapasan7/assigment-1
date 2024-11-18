@@ -6,6 +6,10 @@ import java.io.File
 import java.lang.System.exit
 import java.util.Scanner
 
+
+import java.lang.System.exit
+
+
 private val OrderAPI = OrderAPI()
 private val ProductAPI = ProductAPI(OrderAPI)
 val scanner = Scanner(System.`in`)
@@ -21,7 +25,7 @@ fun mainMenu(): Int {
          > ----------------------------------
          > | NOTE MENU                      |
          > |   1) Add product               |
-         > |   2) add a order               |
+         > |   2)List product              |
          > |   
          > ----------------------------------
          > |   0) Exit                      |
@@ -34,6 +38,8 @@ fun runMenu() {
     do {
         val option = mainMenu()
         when (option) {
+            1 -> addProduct()
+            2 -> listAllProduct()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -42,6 +48,27 @@ fun runMenu() {
 
 }
 
+fun addProduct(){
+    println("Enter product name: ")
+    scanner.nextLine()
+    val productName = scanner.nextLine() // Correctly reads the product name
+    println("Enter memory size: ")
+    val memorySize = scanner.nextInt()
+    scanner.nextLine() // Clear the newline character after entering the integer
+    println("Enter price: ")
+    val price = scanner.nextDouble()
+    scanner.nextLine() // Clear the newline character after entering the double
+
+    ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
+    println("Product added successfully!")
+
+
+}
+
+
+fun listAllProduct(){
+    println(ProductAPI.showProduct())
+}
 fun exitApp() {
     println("Exiting..bye")
     exit(0)
