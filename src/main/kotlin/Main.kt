@@ -5,7 +5,7 @@ import ie.setu.models.Product
 import java.io.File
 import java.lang.System.exit
 import java.util.Scanner
-
+import utils.*
 
 import java.lang.System.exit
 
@@ -55,9 +55,8 @@ fun runMenu() {
 }
 
 fun addProduct(){
-    println("How many product do u need to add: ")
-    scanner.nextLine()
-    val count = scanner.nextInt()
+
+    val count = readInt("How many product do u need to add: ")
 
 
     if (count <= 0) {
@@ -66,15 +65,14 @@ fun addProduct(){
     }
     else {
 
-        println("Enter product name: ")
-        scanner.nextLine()
-        val productName = scanner.nextLine() // Correctly reads the product name
-        println("Enter memory size: ")
-        val memorySize = scanner.nextInt()
-        scanner.nextLine() // Clear the newline character after entering the integer
-        println("Enter price: ")
-        val price = scanner.nextDouble()
-        scanner.nextLine() // Clear the newline character after entering the double
+
+
+        val productName = readString("Enter product name: ")
+
+        val memorySize = readInt("Memory size in (gb): ")
+
+        val price = readDouble("Enter price: ")
+
             repeat(count)  {
 
 
@@ -98,9 +96,8 @@ fun listAllProduct(){
 
 
 fun addOrder(){
-    println("Enter customerName: ")
-    scanner.nextLine()
-    val customerName = scanner.nextLine() // Correctly reads the product name
+
+    val customerName = readString("Enter customerName: ")
     val isAdd = OrderAPI.addOrder(Order(0,customerName,true))
     if (isAdd) {
         println("Order added successfully!")
