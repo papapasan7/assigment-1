@@ -4,15 +4,15 @@ import ie.setu.models.Order
 import ie.setu.models.Product
 import java.io.File
 import java.lang.System.exit
-import java.util.Scanner
+
 import utils.*
 
 import java.lang.System.exit
 
+private val ProductAPI = ProductAPI()
+private val OrderAPI = OrderAPI(ProductAPI)
 
-private val OrderAPI = OrderAPI()
-private val ProductAPI = ProductAPI(OrderAPI)
-val scanner = Scanner(System.`in`)
+
 fun main() {
     runMenu()
 }
@@ -26,15 +26,17 @@ fun mainMenu(): Int {
          > | Online shop MENU               |
          > |   1) Add product               |
          > |   2)List product
+         >     3)delate product
          >               
          >    6) Add order                  |
-         > |   7)List orders                |
+         > |   7)List orders 
+         > |    8)delate order
          > |   
          > ----------------------------------
          > |   0) Exit                      |
          > ---------------------------------- 
          >""".trimMargin(">"))
-    return scanner.nextInt()
+    return readInt("")
 }
 
 fun runMenu() {
@@ -43,9 +45,11 @@ fun runMenu() {
         when (option) {
             1 -> addProduct()
             2 -> listAllProduct()
+            3 -> deleteProduct()
 
             6 -> addOrder()
             7 -> listAllOrder()
+            8-> deleteOrder()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -65,16 +69,10 @@ fun addProduct(){
     }
     else {
 
-
-
         val productName = readString("Enter product name: ")
-
         val memorySize = readInt("Memory size in (gb): ")
-
         val price = readDouble("Enter price: ")
-
             repeat(count)  {
-
 
                 val isAdd = ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
                 if (isAdd) {
@@ -94,6 +92,14 @@ fun listAllProduct(){
 
 
 
+fun deleteProduct() {
+
+    val productId = readInt("Enter Ptoduct ID to delete: ")
+    if (ProductAPI.delatePtoduct(productId)) {
+        println("Ptoduct deleted successfully.")
+    }
+}
+
 
 fun addOrder(){
 
@@ -111,6 +117,15 @@ fun addOrder(){
 
 fun listAllOrder(){
     println(OrderAPI.showOrder())
+}
+
+
+fun deleteOrder() {
+    listAllOrder()
+    val orderId = readInt("Enter Order ID to delete: ")
+    if (OrderAPI.delateOrder(orderId)) {
+        println("Order deleted successfully. Products associated with this order have been updated.")
+    }
 }
 
 
