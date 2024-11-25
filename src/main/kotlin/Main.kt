@@ -23,7 +23,7 @@ fun mainMenu(): Int {
         """
         ╔══════════════════════════════════╗
         ║                                  ║
-        ║         Online shop MENU         ║
+        ║     Storage control app MENU     ║
         ║                                  ║
         ╟──────────────────────────────────╢
         ║   1)Add product                  ║
