@@ -30,16 +30,14 @@ class ProductAPI (){
     }
 
 
-    fun delatePtoduct(findID: Int): Boolean{
+    fun delatePtoduct(findID: Int): Boolean=
 
-        if  (products.removeIf{product -> product.productID == findID}){
-            return true
-        }
-        else {
-            println("Product with ID $findID not found.")
-            return false
-        }
-    }
+        if  (products.removeIf{product -> product.productID == findID})
+             true
+
+        else false
+
+
 
 
     fun updateProduct(seacrhID: Int ,productNameUpd: String,memorySizeUpd : Int,priceUpd : Double): Boolean{
@@ -60,5 +58,13 @@ class ProductAPI (){
     fun numberOfProduct(): Int {
         return products.size
     }
+
+    fun isValidID(seacrhID: Int): Boolean=
+         products.any  { product -> product.productID == seacrhID }
+
+
+
+
+
 
 }
