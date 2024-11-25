@@ -21,9 +21,7 @@ class ProductAPI (){
 
 
     fun delateProductsFromOrder(orderIDSearch: Int) {
-        if (products.isEmpty()) {
-            return
-        }
+
         products.forEach({product ->
             if (orderIDSearch == product.orderID) {
                 product.orderID = -1
@@ -32,19 +30,41 @@ class ProductAPI (){
     }
 
 
-    fun delatePtoduct(findID: Int): Boolean{
-        if (products.isEmpty()){
-            println("No orders stored")
-            return false
-        }
+    fun delatePtoduct(findID: Int): Boolean=
 
-        if  (products.removeIf{product -> product.productID == findID}){
-            return true
-        }
-        else {
-            println("Product with ID $findID not found.")
-            return false
-        }
+        if  (products.removeIf{product -> product.productID == findID})
+             true
+
+        else false
+
+
+
+
+    fun updateProduct(seacrhID: Int ,productNameUpd: String,memorySizeUpd : Int,priceUpd : Double): Boolean{
+       var isUpd = false
+           products.forEach({product ->
+            if (seacrhID == product.productID) {
+                product.productName = productNameUpd
+                product.memorySize = memorySizeUpd
+                product.price = priceUpd
+                isUpd = true
+            }
+        })
+       return isUpd
     }
+
+
+
+    fun numberOfProduct(): Int {
+        return products.size
+    }
+
+    fun isValidID(seacrhID: Int): Boolean=
+         products.any  { product -> product.productID == seacrhID }
+
+
+
+
+
 
 }

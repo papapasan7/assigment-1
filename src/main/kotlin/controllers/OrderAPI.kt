@@ -23,21 +23,48 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
 
 
-    fun delateOrder(findID: Int): Boolean{
-        if (orders.isEmpty()){
-            println("No orders stored")
-            return false
-        }
+
+
+
+
+
+    fun delateOrder(findID: Int): Boolean=
 
           if   (orders.removeIf{order -> order.orderID == findID}){
               productAPI.delateProductsFromOrder(findID)
-              return true
+               true
           }
           else {
-              println("Order with ID $findID not found.")
-              return false
+
+               false
           }
+
+
+
+    fun updateOrder(seacrhID: Int ,customerNameUpd: String): Boolean{
+        var isUpd = false
+        orders.forEach({order ->
+            if (seacrhID == order.orderID) {
+                order.customerName = customerNameUpd
+
+                isUpd = true
+            }
+        })
+        return isUpd
+
+
     }
+
+
+    fun numberOfOrder(): Int {
+        return orders.size
+    }
+
+    fun isValidID(seacrhID: Int): Boolean=
+        orders.any { order -> order.orderID == seacrhID }
+
+
+
 
 }
 

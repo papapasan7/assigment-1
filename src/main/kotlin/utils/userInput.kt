@@ -2,7 +2,7 @@ package utils
 
 fun readInt(prompt: String): Int {
     while (true) {
-        println(prompt)
+        print(prompt)
         val input = readLine()
         try {
             return input?.toInt() ?: throw NumberFormatException("Input is null")
@@ -14,7 +14,7 @@ fun readInt(prompt: String): Int {
 
 fun readDouble(prompt: String): Double {
     while (true) {
-        println(prompt)
+        print(prompt)
         val input = readLine()
         try {
             return input?.toDouble() ?: throw NumberFormatException("Input is null")
@@ -26,7 +26,7 @@ fun readDouble(prompt: String): Double {
 
 fun readString(prompt: String): String {
     while (true) {
-        println(prompt)
+        print(prompt)
         val input = readLine()
         if (!input.isNullOrBlank()) {
             return input
