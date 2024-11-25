@@ -29,10 +29,6 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
 
     fun delateOrder(findID: Int): Boolean{
-        if (orders.isEmpty()){
-            println("No orders stored")
-            return false
-        }
 
           if   (orders.removeIf{order -> order.orderID == findID}){
               productAPI.delateProductsFromOrder(findID)
@@ -59,6 +55,10 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
     }
 
+
+    fun numberOfOrder(): Int {
+        return orders.size
+    }
 
 }
 

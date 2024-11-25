@@ -98,27 +98,36 @@ fun listAllProduct(){
 
 
 fun deleteProduct() {
-
+if (ProductAPI.numberOfProduct()>0) {
+    listAllProduct()
     val productId = readInt("Enter Ptoduct ID to delete: ")
     if (ProductAPI.delatePtoduct(productId)) {
         println("Ptoduct deleted successfully.")
     }
+}else
+{
+    println("No product stored")
+}
 }
 
-    fun UpdProdct(){
 
-    val seacrhID = readInt("Which product u want to update: ")
-
-        val productName = readString("Enter product name: ")
-        val memorySize = readInt("Memory size in (gb): ")
-        val price = readDouble("Enter price: ")
-            val isAdd = ProductAPI.updateProduct(seacrhID,productName, memorySize, price)
-            if (isAdd) {
-                println("Product update successfully!")
-            } else {
-                println("Product update failed!")
-            }
-
+fun UpdProdct(){
+   if (ProductAPI.numberOfProduct()<=0) {
+       println("No product stored")
+   }
+   else{
+       listAllProduct()
+       val seacrhID = readInt("Which product u want to update: ")
+       val productName = readString("Enter product name: ")
+       val memorySize = readInt("Memory size in (gb): ")
+       val price = readDouble("Enter price: ")
+       val isAdd = ProductAPI.updateProduct(seacrhID, productName, memorySize, price)
+       if (isAdd) {
+           println("Product update successfully!")
+       } else {
+           println("Product update failed!")
+       }
+   }
 
 }
 
@@ -144,27 +153,35 @@ fun listAllOrder(){
 
 
 fun deleteOrder() {
-    listAllOrder()
-    val orderId = readInt("Enter Order ID to delete: ")
-    if (OrderAPI.delateOrder(orderId)) {
-        println("Order deleted successfully. Products associated with this order have been updated.")
+
+    if (OrderAPI.numberOfOrder()>0) {
+        listAllOrder()
+        val orderId = readInt("Enter Order ID to delete: ")
+        if (OrderAPI.delateOrder(orderId)) {
+            println("Order deleted successfully. Products associated with this order have been updated.")
+        }
+    }
+    else{
+        println("No order stored")
     }
 }
 
 
 
 fun UpdOrder(){
-
-    val seacrhID = readInt("Which order u want to update: ")
-
-    val customerName = readString("Enter customerName to update: ")
-    val isAdd = OrderAPI.updateOrder(seacrhID,customerName)
-    if (isAdd) {
-        println("Order updated successfully!")
+    if (OrderAPI.numberOfOrder()<=0) {
+        println("No order stored")
     }
-    else
-    {
-        println("Order updated failed!")
+    else {
+        val seacrhID = readInt("Which order u want to update: ")
+
+        val customerName = readString("Enter customerName to update: ")
+        val isAdd = OrderAPI.updateOrder(seacrhID, customerName)
+        if (isAdd) {
+            println("Order updated successfully!")
+        } else {
+            println("Order updated failed!")
+        }
     }
 }
 

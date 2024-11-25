@@ -21,9 +21,7 @@ class ProductAPI (){
 
 
     fun delateProductsFromOrder(orderIDSearch: Int) {
-        if (products.isEmpty()) {
-            return
-        }
+
         products.forEach({product ->
             if (orderIDSearch == product.orderID) {
                 product.orderID = -1
@@ -33,10 +31,6 @@ class ProductAPI (){
 
 
     fun delatePtoduct(findID: Int): Boolean{
-        if (products.isEmpty()){
-            println("No orders stored")
-            return false
-        }
 
         if  (products.removeIf{product -> product.productID == findID}){
             return true
@@ -61,5 +55,10 @@ class ProductAPI (){
        return isUpd
     }
 
+
+
+    fun numberOfProduct(): Int {
+        return products.size
+    }
 
 }
