@@ -23,6 +23,11 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
 
 
+
+
+
+
+
     fun delateOrder(findID: Int): Boolean{
         if (orders.isEmpty()){
             println("No orders stored")
@@ -38,6 +43,22 @@ class OrderAPI (private val productAPI: ProductAPI) {
               return false
           }
     }
+
+
+    fun updateOrder(seacrhID: Int ,customerNameUpd: String): Boolean{
+        var isUpd = false
+        orders.forEach({order ->
+            if (seacrhID == order.orderID) {
+                order.customerName = customerNameUpd
+
+                isUpd = true
+            }
+        })
+        return isUpd
+
+
+    }
+
 
 }
 

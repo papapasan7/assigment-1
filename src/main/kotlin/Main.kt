@@ -27,10 +27,11 @@ fun mainMenu(): Int {
          > |   1) Add product               |
          > |   2)List product
          >     3)delate product
-         >               
+         >      4)upd product  
          >    6) Add order                  |
          > |   7)List orders 
          > |    8)delate order
+         >     9)upd product  
          > |   
          > ----------------------------------
          > |   0) Exit                      |
@@ -46,10 +47,12 @@ fun runMenu() {
             1 -> addProduct()
             2 -> listAllProduct()
             3 -> deleteProduct()
+            4 -> UpdProdct()
 
             6 -> addOrder()
             7 -> listAllOrder()
             8-> deleteOrder()
+            9 -> UpdOrder()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -92,6 +95,8 @@ fun listAllProduct(){
 
 
 
+
+
 fun deleteProduct() {
 
     val productId = readInt("Enter Ptoduct ID to delete: ")
@@ -99,6 +104,24 @@ fun deleteProduct() {
         println("Ptoduct deleted successfully.")
     }
 }
+
+    fun UpdProdct(){
+
+    val seacrhID = readInt("Which product u want to update: ")
+
+        val productName = readString("Enter product name: ")
+        val memorySize = readInt("Memory size in (gb): ")
+        val price = readDouble("Enter price: ")
+            val isAdd = ProductAPI.updateProduct(seacrhID,productName, memorySize, price)
+            if (isAdd) {
+                println("Product update successfully!")
+            } else {
+                println("Product update failed!")
+            }
+
+
+}
+
 
 
 fun addOrder(){
@@ -128,6 +151,22 @@ fun deleteOrder() {
     }
 }
 
+
+
+fun UpdOrder(){
+
+    val seacrhID = readInt("Which order u want to update: ")
+
+    val customerName = readString("Enter customerName to update: ")
+    val isAdd = OrderAPI.updateOrder(seacrhID,customerName)
+    if (isAdd) {
+        println("Order updated successfully!")
+    }
+    else
+    {
+        println("Order updated failed!")
+    }
+}
 
 fun exitApp() {
     println("Exiting..bye")

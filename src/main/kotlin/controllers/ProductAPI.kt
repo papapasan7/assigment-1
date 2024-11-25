@@ -47,4 +47,19 @@ class ProductAPI (){
         }
     }
 
+
+    fun updateProduct(seacrhID: Int ,productNameUpd: String,memorySizeUpd : Int,priceUpd : Double): Boolean{
+       var isUpd = false
+           products.forEach({product ->
+            if (seacrhID == product.productID) {
+                product.productName = productNameUpd
+                product.memorySize = memorySizeUpd
+                product.price = priceUpd
+                isUpd = true
+            }
+        })
+       return isUpd
+    }
+
+
 }
