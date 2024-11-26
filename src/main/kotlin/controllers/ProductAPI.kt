@@ -76,6 +76,20 @@ class ProductAPI (){
 
     }
 
+    fun showProductByOrder(seacrhOrderID:Int):String
+    {
+        val isValidOrder=products.filter { product -> product.orderID == seacrhOrderID }
+        return if(isValidOrder.isEmpty())
+        {
+            " No stored product in order with id $seacrhOrderID"
+        }
+        else
+        {
+            isValidOrder.joinToString(separator = "\n"){product ->
+                "  "+products.indexOf(product).toString() +": "+product.toString() }
+        }
+    }
+
 
 
 
