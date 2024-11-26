@@ -35,7 +35,7 @@ fun mainMenu(): Int {
         ║   7)List orders                  ║
         ║   8)Delete order                 ║
         ║   9)Update product               ║
-        ║                                  ║
+        ║   10)add product to order        ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
         """.trimIndent()
@@ -56,6 +56,8 @@ fun runMenu() {
             7 -> listAllOrder()
             8-> deleteOrder()
             9 -> UpdOrder()
+
+            10 ->addProductToOrder()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -226,6 +228,42 @@ fun UpdOrder(){
     }
 }
 
+
+fun addProductToOrder()
+{
+    if (OrderAPI.numberOfOrder() <= 0 || ProductAPI.numberOfProduct() <= 0)
+    {
+        println("No order or product stored")
+        return
+    }
+
+    listAllProduct()
+    val seacrhProductID = readInt("Enter the product id you want to add to your order: ")
+
+    if (!ProductAPI.isValidID(seacrhProductID))
+    {
+        println("Product with ID $seacrhProductID not found.")
+        return
+    }
+
+    listAllOrder()
+    val seacrhOrderID = readInt("enter the order ID in which you want to place the product: ")
+
+    if (!OrderAPI.isValidID(seacrhOrderID))
+    {
+        println("Order with ID $seacrhOrderID not found.")
+        return
+    }
+    if (ProductAPI.addProductToOrder(seacrhProductID, seacrhOrderID))
+    {
+        println("Product added to order  successfully!")
+    }
+    else
+    {
+        println("Product add to order failed!")
+    }
+
+}
 fun exitApp() {
     println("Exiting..bye")
     exit(0)

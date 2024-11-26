@@ -63,6 +63,17 @@ class ProductAPI (){
          products.any  { product -> product.productID == seacrhID }
 
 
+    fun addProductToOrder(productSeacrhID: Int, orderIDaddInProduct: Int) :Boolean{
+        var isUpd = false
+        products.forEach({product ->
+            if (productSeacrhID == product.productID) {
+                product.orderID = orderIDaddInProduct
+
+                isUpd = true
+            }
+        })
+        return isUpd
+    }
 
 
 

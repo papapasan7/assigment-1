@@ -56,9 +56,8 @@ class OrderAPI (private val productAPI: ProductAPI) {
     }
 
 
-    fun numberOfOrder(): Int {
-        return orders.size
-    }
+    fun numberOfOrder(): Int = orders.size
+
 
     fun isValidID(seacrhID: Int): Boolean=
         orders.any { order -> order.orderID == seacrhID }
