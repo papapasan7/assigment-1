@@ -1,7 +1,7 @@
 package ie.setu.controllers
 import ie.setu.models.Product
 class ProductAPI (){
-    private val products = mutableListOf<Product>()
+    internal val products = mutableListOf<Product>()
     private var idGen :Int = 0;
 
     fun idCreate() = idGen++

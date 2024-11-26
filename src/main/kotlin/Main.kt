@@ -37,6 +37,7 @@ fun mainMenu(): Int {
         ║   9)Update product               ║
         ║   10)add product to order        ║
         ║   11)list product by order       ║
+        ║   12)list order with pproduct   ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
         """.trimIndent()
@@ -60,6 +61,7 @@ fun runMenu() {
 
             10 ->addProductToOrder()
             11 ->listProductByOrder()
+            12 ->listOrderWithProduct()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -270,7 +272,7 @@ fun addProductToOrder()
 
 fun listProductByOrder()
 {
-    listAllOrder()
+    listOrderWithProduct()
     val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
     if (!OrderAPI.isValidID(seacrhOrderID))
     {
@@ -278,6 +280,10 @@ fun listProductByOrder()
         return
     }
     println(ProductAPI.showProductByOrder(seacrhOrderID))
+}
+
+fun listOrderWithProduct(){
+    println(OrderAPI.showOrderWithProduct(ProductAPI))
 }
 
 fun exitApp() {
