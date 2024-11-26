@@ -37,6 +37,7 @@ fun mainMenu(): Int {
         ║   9)Update product               ║
         ║   10)add product to order        ║
         ║   11)list product by order       ║
+        ║   11)list order with product     ║
         ║   13)Delate product from order   ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
