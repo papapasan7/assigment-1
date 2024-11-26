@@ -62,6 +62,20 @@ class OrderAPI (private val productAPI: ProductAPI) {
     fun isValidID(seacrhID: Int): Boolean=
         orders.any { order -> order.orderID == seacrhID }
 
+    fun showOrderWithProduct(productAPI: ProductAPI): String
+    {
+        return orders.joinToString(separator = "\n"){order ->
+            val productFind = productAPI.products.filter { product ->  product.orderID == order.orderID }
+            if (productFind.isEmpty()){
+                orders.indexOf(order).toString() +": "+order.toString()+"\n No products in this order"
+            }else{
+                orders.indexOf(order).toString() +": "+order.toString()+"\n product of ${order.customerName} \n"+
+                        productFind.joinToString(separator = "\n"){product ->
+                            "    "+productFind.indexOf(product).toString() +": "+product.toString() }
+            }
+
+        }
+    }
 
 
 
