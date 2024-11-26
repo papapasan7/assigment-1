@@ -17,12 +17,13 @@ class OrderAPI (private val productAPI: ProductAPI) {
     fun showOrder()=
         if (orders.isEmpty())
             "No Orders stored"
-        else
-            orders.joinToString(separator = "\n"){order ->
-                orders.indexOf(order).toString() +": "+order.toString() }
+        else formatListString(orders)
 
 
-
+    fun showOrderActive()=
+            if (numberOfActiveOrder()<=0)
+                "No Orders stored"
+            else formatListString(orders.filter { order -> order.isActive})
 
 
 
@@ -57,6 +58,7 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
 
     fun numberOfOrder(): Int = orders.size
+    fun numberOfActiveOrder(): Int = orders.count{order -> order.isActive }
 
 
     fun isValidID(seacrhID: Int): Boolean=
@@ -77,6 +79,11 @@ class OrderAPI (private val productAPI: ProductAPI) {
         }
     }
 
+
+    private fun formatListString(productToFormat : List<Order>) : String =
+            productToFormat
+                .joinToString (separator = "\n") { order ->
+                    orders.indexOf(order).toString() + ": " + order.toString() }
 
 
 

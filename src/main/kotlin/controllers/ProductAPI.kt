@@ -13,12 +13,13 @@ class ProductAPI (){
 
     fun showProduct()=
         if (products.isEmpty())
-            "No notes stored"
-        else
-            products.joinToString(separator = "\n"){product ->
-                products.indexOf(product).toString() +": "+product.toString() }
+            "No product stored"
+        else formatListString(products)
 
-
+    fun showNotOrderdProduct()=
+            if (numberOfNotStoredProduct()<=0)
+                "No not stored product"
+            else formatListString(products.filter { product -> product.orderID== -1  })
 
     fun delateAllProductsFromOrder(orderIDSearch: Int):Boolean {
         var isDelate =false
@@ -57,9 +58,9 @@ class ProductAPI (){
 
 
 
-    fun numberOfProduct(): Int {
-        return products.size
-    }
+    fun numberOfProduct(): Int = products.size
+    fun numberOfNotStoredProduct(): Int = products.count { product -> product.productID != -1 }
+
 
     fun isValidID(seacrhID: Int): Boolean=
          products.any  { product -> product.productID == seacrhID }
@@ -106,4 +107,11 @@ class ProductAPI (){
     }
 
 
+    private fun formatListString(productToFormat : List<Product>) : String =
+            productToFormat
+                .joinToString (separator = "\n") { product ->
+                    products.indexOf(product).toString() + ": " + product.toString() }
+
 }
+
+

@@ -32,12 +32,13 @@ fun mainMenu(): Int {
         ║   4)upd product                  ║
         ║                                  ║
         ║   6)Add order                    ║
-        ║   7)List orders                  ║
+        ║   7)list Orders                  ║
         ║   8)Delete order                 ║
         ║   9)Update product               ║
+        ║                                  ║
         ║   10)add product to order        ║
         ║   11)list product by order       ║
-        ║   11)list order with product     ║
+        ║   12)list order with product     ║
         ║   13)Delate product from order   ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
@@ -51,12 +52,12 @@ fun runMenu() {
         val option = mainMenu()
         when (option) {
             1 -> addProduct()
-            2 -> listAllProduct()
+            2 -> listProduct()
             3 -> deleteProduct()
             4 -> UpdProdct()
 
             6 -> addOrder()
-            7 -> listAllOrder()
+            7 -> listOrders()
             8-> deleteOrder()
             9 -> UpdOrder()
 
@@ -99,8 +100,32 @@ fun addProduct(){
 }
 
 
+
+fun listProduct() {
+    if (ProductAPI.numberOfProduct()>0) {
+        val option = readInt(
+            """
+                  >╔═════════════════════════════════════╗
+                  >║    1) View ALL products             ║
+                  >║    2) View NOT stored products      ║
+                  >╚═════════════════════════════════════╝
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllProduct();
+            2 -> listNotOrderedProduct();
+            else -> println("Invalid option entered: $option");
+        }
+    } else {
+        println("Option Invalid - No product stored");
+    }
+}
+
 fun listAllProduct(){
     println(ProductAPI.showProduct())
+}
+fun listNotOrderedProduct(){
+    println(ProductAPI.showNotOrderdProduct())
 }
 
 
@@ -174,9 +199,33 @@ fun addOrder(){
     }
 }
 
+fun listOrders() {
+    if (OrderAPI.numberOfOrder()>0) {
+        val option = readInt(
+            """
+                  >╔═════════════════════════════════════╗
+                  >║    1) View ALL order                ║
+                  >║    2) View ACTIVE orders            ║
+                  >╚═════════════════════════════════════╝
+         > Chose what list do u want: """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllOrder();
+            2 -> listActiveOrder();
+            else -> println("Invalid option entered: $option");
+        }
+    } else {
+        println("Option Invalid - No order stored");
+    }
+}
+
+
 
 fun listAllOrder(){
     println(OrderAPI.showOrder())
+}
+fun listActiveOrder(){
+    println(OrderAPI.showOrderActive())
 }
 
 
@@ -243,7 +292,7 @@ fun addProductToOrder()
         return
     }
 
-    listAllProduct()
+    listNotOrderedProduct()
     val seacrhProductID = readInt("Enter the product id you want to add to your order: ")
 
     if (!ProductAPI.isValidID(seacrhProductID))
