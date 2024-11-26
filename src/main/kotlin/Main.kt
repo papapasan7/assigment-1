@@ -37,7 +37,7 @@ fun mainMenu(): Int {
         ║   9)Update product               ║
         ║   10)add product to order        ║
         ║   11)list product by order       ║
-        ║   12)list order with pproduct   ║
+        ║   13)Delate product from order   ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
         """.trimIndent()
@@ -62,6 +62,7 @@ fun runMenu() {
             10 ->addProductToOrder()
             11 ->listProductByOrder()
             12 ->listOrderWithProduct()
+            13 ->delateProductFromOrder()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -286,6 +287,39 @@ fun listOrderWithProduct(){
     println(OrderAPI.showOrderWithProduct(ProductAPI))
 }
 
+fun delateProductFromOrder()
+{
+    if (OrderAPI.numberOfOrder()<=0) {
+        println("No order stored")
+        return
+    }
+    listOrderWithProduct()
+    val seacrhOrderID = readInt("enter the order ID in which you want to delete the product: ")
+
+    if (!OrderAPI.isValidID(seacrhOrderID)){
+        println("Product with ID $seacrhOrderID not found.")
+        return
+    }
+
+    println(ProductAPI.showProductByOrder(seacrhOrderID))
+
+    val seacrhProductID = readInt("Enter the product id you want to delete from your order: ")
+
+    if (!ProductAPI.isValidID(seacrhProductID))
+    {
+        println("Product with ID $seacrhProductID not found.")
+        return
+    }
+    if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID,seacrhProductID))
+    {
+        println("Product delete successfully!")
+    }
+    else{
+        println("Product delete field")
+    }
+
+
+}
 fun exitApp() {
     println("Exiting..bye")
     exit(0)

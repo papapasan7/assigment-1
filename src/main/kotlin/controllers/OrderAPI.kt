@@ -28,10 +28,10 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
 
 
-    fun delateOrder(findID: Int): Boolean=
+    fun delateOrder(findOrderID: Int): Boolean=
 
-          if   (orders.removeIf{order -> order.orderID == findID}){
-              productAPI.delateProductsFromOrder(findID)
+          if   (orders.removeIf{order -> order.orderID == findOrderID}){
+              productAPI.delateAllProductsFromOrder(findOrderID)
                true
           }
           else {
@@ -76,6 +76,8 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
         }
     }
+
+
 
 
 
