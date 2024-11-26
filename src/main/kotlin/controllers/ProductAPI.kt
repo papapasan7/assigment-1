@@ -20,13 +20,15 @@ class ProductAPI (){
 
 
 
-    fun delateProductsFromOrder(orderIDSearch: Int) {
-
+    fun delateAllProductsFromOrder(orderIDSearch: Int):Boolean {
+        var isDelate =false
         products.forEach({product ->
             if (orderIDSearch == product.orderID) {
                 product.orderID = -1
+                isDelate =true
             }
         })
+        return isDelate
     }
 
 
@@ -90,7 +92,18 @@ class ProductAPI (){
         }
     }
 
+    fun delateChosedProductsFromOrder(orderIDSearch: Int,productSeacrhID: Int):Boolean {
+        val productIsADD = products.find { product -> product.productID == productSeacrhID }
+        return if (productIsADD!!.orderID != -1 &&  productIsADD.orderID == orderIDSearch) {
 
+            productIsADD.orderID= -1
+            true
+        }else{
+            println("This product not in this order with id $orderIDSearch")
+            false
+        }
+
+    }
 
 
 }
