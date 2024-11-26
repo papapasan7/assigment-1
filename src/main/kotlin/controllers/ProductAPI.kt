@@ -64,15 +64,16 @@ class ProductAPI (){
 
 
     fun addProductToOrder(productSeacrhID: Int, orderIDaddInProduct: Int) :Boolean{
-        var isUpd = false
-        products.forEach({product ->
-            if (productSeacrhID == product.productID) {
-                product.orderID = orderIDaddInProduct
+       val productIsADD = products.find { product -> product.productID == productSeacrhID }
+        return if (productIsADD!!.orderID != -1) {
+            println("This product already exists")
+            false
+        }else{
+            productIsADD.orderID=orderIDaddInProduct
+            true
+        }
 
-                isUpd = true
-            }
-        })
-        return isUpd
+
     }
 
 
