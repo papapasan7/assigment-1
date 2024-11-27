@@ -38,8 +38,7 @@ fun mainMenu(): Int {
         ║                                  ║
         ║   10)add product to order        ║
         ║   11)list product by order       ║
-        ║   12)list order with product     ║
-        ║   13)Delate product from order   ║
+        ║   12)Delate product from order   ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
         """.trimIndent()
@@ -334,7 +333,7 @@ fun listProductByOrder()
 }
 
 fun listOrderWithProduct(){
-    println(OrderAPI.showOrderWithProduct(ProductAPI))
+    println(OrderAPI.showOrderActive())
 }
 
 fun delateProductFromOrder()
