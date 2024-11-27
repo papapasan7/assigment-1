@@ -21,10 +21,13 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
     fun showOrderActive()=
             if (numberOfActiveOrder()<=0)
-                "No Orders stored"
+                "No Actice Orders stored"
             else formatListString(orders.filter { order -> order.isActive})
 
-
+    fun showOrderINactive()=
+            if (numberOfINactiveOrder()<=0)
+                "No Active Orders stored"
+            else formatListString(orders.filter { order -> !order.isActive})
 
 
 
@@ -41,15 +44,15 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
 
 
-    fun updateOrder(seacrhID: Int ,customerNameUpd: String): Boolean{
+    fun updateOrder(seacrhOrderID: Int ,customerNameUpd: String): Boolean{
         var isUpd = false
-        orders.forEach({order ->
-            if (seacrhID == order.orderID) {
+        orders.forEach{order ->
+            if (seacrhOrderID == order.orderID) {
                 order.customerName = customerNameUpd
 
                 isUpd = true
             }
-        })
+        }
         return isUpd
 
 
@@ -58,15 +61,18 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
     fun numberOfOrder(): Int = orders.size
     fun numberOfActiveOrder(): Int = orders.count{order -> order.isActive }
+    fun numberOfINactiveOrder(): Int = orders.count{order -> !order.isActive }
 
 
-    fun isValidID(seacrhID: Int): Boolean=
-        orders.any { order -> order.orderID == seacrhID }
+    fun isValidID(searchOrderID: Int): Boolean=
+        orders.any { order -> order.orderID == searchOrderID }
 
 
+    fun isValidActiveID(searchOrderID: Int): Boolean=
+            orders.any { order -> order.orderID == searchOrderID && order.isActive }
 
-
-
+    fun isValidInactiveID(searchOrderID: Int): Boolean=
+            orders.any { order -> order.orderID == searchOrderID && !order.isActive }
 
 
     private fun formatListString(OrderToFormat : List<Order>) : String=
@@ -81,6 +87,21 @@ class OrderAPI (private val productAPI: ProductAPI) {
             }
 
         }
+
+    fun swithcActiveStatus(searchOrderID: Int):Boolean{
+        var isUpd = false
+        orders.forEach{order ->
+            if (searchOrderID == order.orderID) {
+                order.isActive= !order.isActive
+
+                isUpd = true
+            }
+        }
+        return isUpd
+    }
+
+
+
 
 
 }

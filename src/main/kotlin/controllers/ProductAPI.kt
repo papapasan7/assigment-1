@@ -17,20 +17,11 @@ class ProductAPI (){
         else formatListString(products)
 
     fun showNotOrderdProduct()=
-            if (numberOfNotStoredProduct()<=0)
-                "No not stored product"
+            if (numberOfNotOrderedProduct()<=0)
+                "No Orderedd product"
             else formatListString(products.filter { product -> product.orderID== -1  })
 
-    fun delateAllProductsFromOrder(orderIDSearch: Int):Boolean {
-        var isDelate =false
-        products.forEach({product ->
-            if (orderIDSearch == product.orderID) {
-                product.orderID = -1
-                isDelate =true
-            }
-        })
-        return isDelate
-    }
+
 
 
     fun delatePtoduct(findID: Int): Boolean=
@@ -45,25 +36,38 @@ class ProductAPI (){
 
     fun updateProduct(seacrhID: Int ,productNameUpd: String,memorySizeUpd : Int,priceUpd : Double): Boolean{
        var isUpd = false
-           products.forEach({product ->
+           products.forEach{product ->
             if (seacrhID == product.productID) {
                 product.productName = productNameUpd
                 product.memorySize = memorySizeUpd
                 product.price = priceUpd
                 isUpd = true
             }
-        })
+        }
        return isUpd
     }
 
 
 
     fun numberOfProduct(): Int = products.size
-    fun numberOfNotStoredProduct(): Int = products.count { product -> product.productID != -1 }
+    fun numberOfNotOrderedProduct(): Int = products.count { product -> product.orderID == -1 }
 
 
     fun isValidID(seacrhID: Int): Boolean=
          products.any  { product -> product.productID == seacrhID }
+    fun isValidNotStoredProductID(seacrhID: Int): Boolean=
+            products.any  { product -> product.productID == seacrhID && product.orderID == -1}
+
+    fun delateAllProductsFromOrder(orderIDSearch: Int):Boolean {
+        var isDelate =false
+        products.forEach({product ->
+                             if (orderIDSearch == product.orderID) {
+                                 product.orderID = -1
+                                 isDelate =true
+                             }
+                         })
+        return isDelate
+    }
 
 
     fun addProductToOrder(productSeacrhID: Int, orderIDaddInProduct: Int) :Boolean{
