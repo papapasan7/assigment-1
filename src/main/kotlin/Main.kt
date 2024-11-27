@@ -62,7 +62,7 @@ fun runMenu() {
 
             10 ->addProductToOrder()
             11 ->listProductByOrder()
-            12 ->listOrderWithProduct()
+
             13 ->delateProductFromOrder()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
@@ -322,7 +322,7 @@ fun addProductToOrder()
 
 fun listProductByOrder()
 {
-    listOrderWithProduct()
+    listActiveOrder()
     val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
     if (!OrderAPI.isValidID(seacrhOrderID))
     {
@@ -332,9 +332,7 @@ fun listProductByOrder()
     println(ProductAPI.showProductByOrder(seacrhOrderID))
 }
 
-fun listOrderWithProduct(){
-    println(OrderAPI.showOrderActive())
-}
+
 
 fun delateProductFromOrder()
 {
@@ -342,7 +340,7 @@ fun delateProductFromOrder()
         println("No order stored")
         return
     }
-    listOrderWithProduct()
+    listActiveOrder()
     val seacrhOrderID = readInt("enter the order ID in which you want to delete the product: ")
 
     if (!OrderAPI.isValidID(seacrhOrderID)){
