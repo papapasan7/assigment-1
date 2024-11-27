@@ -22,7 +22,10 @@ class ProductAPI (){
             else formatListString(products.filter { product -> product.orderID== -1  })
 
 
-
+    fun showOrderdProduct()=
+            if (numberOfOrderedProduct()<=0)
+                "No Orderedd product"
+            else formatListString(products.filter { product -> product.orderID!= -1  })
 
     fun delatePtoduct(findID: Int): Boolean=
 
@@ -49,14 +52,65 @@ class ProductAPI (){
 
 
 
+    public fun checkOfNumberNotStoredProduct() : Boolean{
+
+        if (numberOfNotOrderedProduct()<=0) {
+            println("no not orderd product")
+            return false
+        }
+        else return true
+    }
+    public fun checkOfNumberStoredProduct() : Boolean{
+
+        if (numberOfOrderedProduct()<=0) {
+            println("no  orderd product")
+            return false
+        }
+        else return true
+    }
+
+    public fun checkOfNumberAllProduct() : Boolean{
+
+        if (numberOfProduct()<=0) {
+            println("No product stored")
+            return false
+        }
+        else return true
+    }
+
     fun numberOfProduct(): Int = products.size
     fun numberOfNotOrderedProduct(): Int = products.count { product -> product.orderID == -1 }
+    fun numberOfOrderedProduct(): Int = products.count { product -> product.orderID != -1 }
+
+
+
+
 
 
     fun isValidID(seacrhID: Int): Boolean=
          products.any  { product -> product.productID == seacrhID }
+
     fun isValidNotStoredProductID(seacrhID: Int): Boolean=
             products.any  { product -> product.productID == seacrhID && product.orderID == -1}
+
+
+    public fun checkIsValidProductID(searchProductID: Int) : Boolean{
+
+        if (!isValidID(searchProductID)) {
+            println("Its Valid  Product ID $searchProductID")
+            return false
+        }
+        else return true
+    }
+
+    public fun checkIsValidNotStoredProductID(searchProductID: Int) : Boolean{
+
+        if (!isValidNotStoredProductID(searchProductID)) {
+            println("Its Valid no orderd  Product ID $searchProductID")
+            return false
+        }
+        else return true
+    }
 
     fun delateAllProductsFromOrder(orderIDSearch: Int):Boolean {
         var isDelate =false
