@@ -26,7 +26,7 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
     fun showOrderINactive()=
             if (numberOfINactiveOrder()<=0)
-                "No Active Orders stored"
+                "No Inactive Orders stored"
             else formatListString(orders.filter { order -> !order.isActive})
 
 
@@ -64,6 +64,33 @@ class OrderAPI (private val productAPI: ProductAPI) {
     fun numberOfINactiveOrder(): Int = orders.count{order -> !order.isActive }
 
 
+    public fun checkOfNumberActiveOrder() : Boolean{
+
+        if (numberOfActiveOrder()<=0) {
+            println("No active order stored")
+            return false
+        }
+        else return true
+    }
+
+    public fun checkOfNumberInactiveOrder() : Boolean{
+
+        if (numberOfINactiveOrder()<=0) {
+            println("No Inactive order stored")
+            return false
+        }
+        else return true
+    }
+    public fun checkAreNumberOrder() : Boolean{
+
+        if (numberOfOrder()<=0) {
+            println("No order stored")
+            return false
+        }
+        else return true
+    }
+
+
     fun isValidID(searchOrderID: Int): Boolean=
         orders.any { order -> order.orderID == searchOrderID }
 
@@ -73,6 +100,34 @@ class OrderAPI (private val productAPI: ProductAPI) {
 
     fun isValidInactiveID(searchOrderID: Int): Boolean=
             orders.any { order -> order.orderID == searchOrderID && !order.isActive }
+
+    public fun checkIsValidActiveID(searchOrderID: Int) : Boolean{
+
+        if (!isValidActiveID(searchOrderID)) {
+            println("Its Valid Active Order ID $searchOrderID")
+            return false
+        }
+        else return true
+    }
+
+    public fun checkIsValidInactiveID(searchOrderID: Int) : Boolean{
+
+        if (!isValidInactiveID(searchOrderID)) {
+            println("Its Valid Inactive Order ID $searchOrderID")
+            return false
+        }
+        else return true
+    }
+
+    public fun checkIsOrderValidID(searchOrderID: Int) : Boolean{
+
+        if (!isValidID(searchOrderID)) {
+            println("Its Valid Order ID $searchOrderID")
+            return false
+        }
+        else return true
+    }
+
 
 
     private fun formatListString(OrderToFormat : List<Order>) : String=

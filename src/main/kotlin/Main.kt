@@ -103,22 +103,22 @@ fun addProduct(){
 
 
 fun listProduct() {
-    if (ProductAPI.numberOfProduct()>0) {
+    if (ProductAPI.checkOfNumberAllProduct()) {
         val option = readInt(
             """
                   >╔═════════════════════════════════════╗
                   >║    1) View ALL products             ║
                   >║    2) View NOT stored products      ║
+                  >║    2) View  Ordered products        ║
                   >╚═════════════════════════════════════╝
          Choose what list do u want: """.trimMargin(">"))
 
         when (option) {
             1 -> listAllProduct();
             2 -> listNotOrderedProduct();
+            3 -> listOrderedProduct();
             else -> println("Invalid option entered: $option");
         }
-    } else {
-        println("Option Invalid - No product stored");
     }
 }
 
@@ -129,14 +129,19 @@ fun listNotOrderedProduct(){
     println(ProductAPI.showNotOrderdProduct())
 }
 
+fun listOrderedProduct(){
+    println(ProductAPI.showOrderdProduct())
+}
+
+
 
 fun deleteProduct()
 {
-    if (ProductAPI.numberOfProduct() > 0)
+    if (ProductAPI.checkOfNumberAllProduct())
     {
         listAllProduct()
         val seacrhID = readInt("Enter product ID to delete: ")
-        if (ProductAPI.isValidID(seacrhID))
+        if (ProductAPI.checkIsValidProductID(seacrhID))
         {
             if (ProductAPI.delatePtoduct(seacrhID))
             {
@@ -146,26 +151,18 @@ fun deleteProduct()
                 println("Ptoduct deleted failed.")
             }
         }
-        else
-        {
-            println("Product with ID $seacrhID not found.")
-        }
+
     }
-    else
-    {
-        println("No product stored")
-    }
+
 }
 
 
 fun UpdProdct(){
-   if (ProductAPI.numberOfProduct()<=0) {
-       println("No product stored")
-   }
-   else {
+   if (ProductAPI.checkOfNumberAllProduct()) {
+
        listAllProduct()
        val seacrhID = readInt("Enter product ID that u want to update: ")
-       if (ProductAPI.isValidID(seacrhID)) {
+       if (ProductAPI.checkIsValidProductID(seacrhID)) {
 
            val productName = readString("Enter product name: ")
            val memorySize = readInt("Memory size in (gb): ")
@@ -177,10 +174,7 @@ fun UpdProdct(){
                println("Product update failed!")
            }
        }
-       else
-       {
-           println("Product with ID $seacrhID not found.")
-       }
+
    }
 
 }
@@ -201,7 +195,7 @@ fun addOrder(){
 }
 
 fun listOrders() {
-    if (OrderAPI.numberOfOrder()>0) {
+    if (OrderAPI.checkAreNumberOrder()) {
         val option = readInt(
             """
                   >╔═════════════════════════════════════╗
@@ -217,8 +211,6 @@ fun listOrders() {
             3 ->  listInactiveOrder();
             else -> println("Invalid option entered: $option");
         }
-    } else {
-        println("Option Invalid - No order stored");
     }
 }
 
@@ -237,10 +229,10 @@ fun listInactiveOrder(){
 
 fun deleteOrder() {
 
-    if (OrderAPI.numberOfOrder()>0) {
+    if (OrderAPI.checkAreNumberOrder()) {
         listAllOrder()
         val seacrhID = readInt("Enter Order ID to delete: ")
-        if(OrderAPI.isValidID(seacrhID))
+        if(OrderAPI.checkIsOrderValidID(seacrhID))
         {
             if (OrderAPI.delateOrder(seacrhID))
             {
@@ -250,27 +242,21 @@ fun deleteOrder() {
                 println("Order deleted failed.")
             }
         }
-        else
-        {
-            println("Order with ID $seacrhID not found.")
-        }
-    }
-    else{
-        println("No order stored")
+
+
     }
 }
 
 
 
 fun UpdOrder(){
-    if (OrderAPI.numberOfOrder()<=0) {
-        println("No order stored")
-    }
-    else {
+    if (OrderAPI.checkAreNumberOrder()) {
+
+
         listAllOrder()
         val seacrhID = readInt("Enter Order ID that u want to update: ")
 
-        if(OrderAPI.isValidID(seacrhID))
+        if(OrderAPI.checkIsOrderValidID(seacrhID))
         {
             val customerName = readString("Enter customerName to update: ")
             val isAdd = OrderAPI.updateOrder(seacrhID, customerName)
@@ -283,14 +269,12 @@ fun UpdOrder(){
                 println("Order updated failed!")
             }
         }
-        else{
-            println("Order with ID $seacrhID not found.")
-        }
+
     }
 }
     fun changeActiveStatus()
     {
-        if (OrderAPI.numberOfOrder()>0) {
+        if (OrderAPI.checkAreNumberOrder()) {
             val option = readInt(
                 """
                   >╔═════════════════════════════════════╗
@@ -304,133 +288,129 @@ fun UpdOrder(){
                 2 -> MakeOrderActive()
                 else -> println("Invalid option entered: $option");
             }
-        } else {
-            println("Option Invalid - No order stored");
+
         }
     }
 
 fun MakeOrderInavtive()
 {
-    if (OrderAPI.numberOfActiveOrder()<=0){
-        println("Active Orders  found.")
-        return
-    }
-    listActiveOrder()
-    val seacrhActiveOrderID = readInt("enter the order ID to make INACTIVE: ")
-    if (!OrderAPI.isValidActiveID(seacrhActiveOrderID)){
-        println("Active Order with ID $seacrhActiveOrderID not found.")
-        return
-    }
-    if(OrderAPI.swithcActiveStatus(seacrhActiveOrderID)){
-        println("Changed to INACTIVE successfully")
-    }
-    else{
-        println("Changed to INACTIVE failed!")
+    if (OrderAPI.checkOfNumberActiveOrder())
+    {
+        listActiveOrder()
+        val seacrhActiveOrderID = readInt("enter the order ID to make INACTIVE: ")
+        if (OrderAPI.checkIsValidActiveID(seacrhActiveOrderID))
+        {
+        if (OrderAPI.swithcActiveStatus(seacrhActiveOrderID))
+        {
+            println("Changed to INACTIVE successfully")
+        }
+        else
+        {
+            println("Changed to INACTIVE failed!")
+        }
+     }
     }
 }
 
 fun MakeOrderActive()
 {
-    if (OrderAPI.numberOfINactiveOrder()<=0){
-        println("Inactive Orders  found.")
-        return
-    }
-    listInactiveOrder()
-    val seacrhActiveOrderID = readInt("enter the order ID to make ACTIVE: ")
-    if (!OrderAPI.isValidInactiveID(seacrhActiveOrderID)){
-        println("Inactive Order with ID $seacrhActiveOrderID not found.")
-        return
-    }
-    if(OrderAPI.swithcActiveStatus(seacrhActiveOrderID)){
-        println("Changed to ACTIVE successfully")
-    }
-    else{
-        println("Changed to ACTIVE failed!")
+    if (OrderAPI.checkOfNumberInactiveOrder())
+    {
+
+        listInactiveOrder()
+        val seacrhActiveOrderID = readInt("enter the order ID to make ACTIVE: ")
+
+        if (OrderAPI.checkIsValidInactiveID(seacrhActiveOrderID))
+        {
+
+        if (OrderAPI.swithcActiveStatus(seacrhActiveOrderID))
+        {
+            println("Changed to ACTIVE successfully")
+        }
+        else
+        {
+            println("Changed to ACTIVE failed!")
+        }
+        }
     }
 }
 
 fun addProductToOrder()
 {
-    if (OrderAPI.numberOfActiveOrder() <= 0 || ProductAPI.numberOfNotOrderedProduct() <= 0)
+    if (OrderAPI.checkOfNumberActiveOrder() && ProductAPI.checkOfNumberNotStoredProduct())
     {
-        println("No order active or no not ordered product")
-        return
+
+
+        listNotOrderedProduct()
+        val seacrhProductID = readInt("Enter the product id you want to add to your order: ")
+
+        if (ProductAPI.checkIsValidNotStoredProductID(seacrhProductID))
+        {
+
+            listActiveOrder()
+            val seacrhOrderID = readInt("enter the order ID in which you want to place the product: ")
+
+            if (OrderAPI.isValidActiveID(seacrhOrderID))
+            {
+
+                if (ProductAPI.addProductToOrder(seacrhProductID, seacrhOrderID))
+                {
+                    println("Product added to order  successfully!")
+                }
+                else
+                {
+                    println("Product add to order failed!")
+                }
+            }
+        }
     }
-
-    listNotOrderedProduct()
-    val seacrhProductID = readInt("Enter the product id you want to add to your order: ")
-
-    if (!ProductAPI.isValidID(seacrhProductID))
-    {
-        println("Product with ID $seacrhProductID not found.")
-        return
-    }
-
-    listActiveOrder()
-    val seacrhOrderID = readInt("enter the order ID in which you want to place the product: ")
-
-    if (!OrderAPI.isValidActiveID(seacrhOrderID))
-    {
-        println("Active Order with ID $seacrhOrderID not found.")
-        return
-    }
-    if (ProductAPI.addProductToOrder(seacrhProductID, seacrhOrderID))
-    {
-        println("Product added to order  successfully!")
-    }
-    else
-    {
-        println("Product add to order failed!")
-    }
-
-
 }
 
 fun listProductByOrder()
 {
-    listActiveOrder()
-    val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
-    if (!OrderAPI.isValidID(seacrhOrderID))
-    {
-        println("Order with ID $seacrhOrderID not found.")
-        return
-    }
-    println(ProductAPI.showProductByOrder(seacrhOrderID))
+    if (OrderAPI.checkAreNumberOrder()) {
+            listActiveOrder()
+            val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
+            if (OrderAPI.checkIsOrderValidID(seacrhOrderID))
+            {
+
+                println(ProductAPI.showProductByOrder(seacrhOrderID))
+            }
+        }
 }
 
 
 
 fun delateProductFromOrder()
 {
-    if (OrderAPI.numberOfOrder()<=0) {
-        println("No order stored")
-        return
-    }
-    listActiveOrder()
-    val seacrhOrderID = readInt("enter the order ID in which you want to delete the product: ")
-
-    if (!OrderAPI.isValidActiveID(seacrhOrderID)){
-        println("Active Order with ID $seacrhOrderID not found.")
-        return
-    }
-
-    println(ProductAPI.showProductByOrder(seacrhOrderID))
-
-    val seacrhProductID = readInt("Enter the product id you want to delete from your order: ")
-
-    if (!ProductAPI.isValidID(seacrhProductID))
+    if (OrderAPI.checkOfNumberActiveOrder()&& ProductAPI.checkOfNumberStoredProduct())
     {
-        println("Product with ID $seacrhProductID not found In $seacrhOrderID order.")
-        return
-    }
-    if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID,seacrhProductID))
-    {
-        println("Product delete successfully!")
-    }
-    else{
-        println("Product delete field")
-    }
 
+        listActiveOrder()
+        val seacrhOrderID = readInt("enter the order ID in which you want to delete the product: ")
+
+        if (OrderAPI.checkIsValidActiveID(seacrhOrderID))
+        {
+
+
+            println(ProductAPI.showProductByOrder(seacrhOrderID))
+
+            val seacrhProductID = readInt("Enter the product id you want to delete from your order: ")
+
+            if (ProductAPI.checkIsValidProductID(seacrhProductID))
+            {
+
+                if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID, seacrhProductID))
+                {
+                    println("Product delete successfully!")
+                }
+                else
+                {
+                    println("Product delete field")
+                }
+            }
+        }
+    }
 
 }
 fun exitApp() {
