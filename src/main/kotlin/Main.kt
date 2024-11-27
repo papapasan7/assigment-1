@@ -35,10 +35,11 @@ fun mainMenu(): Int {
         ║   7)list Orders                  ║
         ║   8)Delete order                 ║
         ║   9)Update product               ║
+        ║   10)Change Order status         ║
         ║                                  ║
-        ║   10)add product to order        ║
-        ║   11)list product by order       ║
-        ║   12)Delate product from order   ║
+        ║   11)add product to order        ║
+        ║   12)list product by order       ║
+        ║   13)Delate product from order   ║
         ║   0) Exit                        ║
         ╚══════════════════════════════════╝
         """.trimIndent()
@@ -59,9 +60,10 @@ fun runMenu() {
             7 -> listOrders()
             8-> deleteOrder()
             9 -> UpdOrder()
+            10 ->changeActiveStatus()
 
-            10 ->addProductToOrder()
-            11 ->listProductByOrder()
+            11 ->addProductToOrder()
+            12 ->listProductByOrder()
 
             13 ->delateProductFromOrder()
             0 -> exitApp()
@@ -108,7 +110,7 @@ fun listProduct() {
                   >║    1) View ALL products             ║
                   >║    2) View NOT stored products      ║
                   >╚═════════════════════════════════════╝
-         > ==>> """.trimMargin(">"))
+         Choose what list do u want: """.trimMargin(">"))
 
         when (option) {
             1 -> listAllProduct();
@@ -205,12 +207,14 @@ fun listOrders() {
                   >╔═════════════════════════════════════╗
                   >║    1) View ALL order                ║
                   >║    2) View ACTIVE orders            ║
+                  >║    3) View INACTIVE orders          ║
                   >╚═════════════════════════════════════╝
-         > Chose what list do u want: """.trimMargin(">"))
+         > Choose what list do u want: """.trimMargin(">"))
 
         when (option) {
             1 -> listAllOrder();
             2 -> listActiveOrder();
+            3 ->  listInactiveOrder();
             else -> println("Invalid option entered: $option");
         }
     } else {
@@ -225,6 +229,9 @@ fun listAllOrder(){
 }
 fun listActiveOrder(){
     println(OrderAPI.showOrderActive())
+}
+fun listInactiveOrder(){
+    println(OrderAPI.showOrderINactive())
 }
 
 
@@ -281,13 +288,72 @@ fun UpdOrder(){
         }
     }
 }
+    fun changeActiveStatus()
+    {
+        if (OrderAPI.numberOfOrder()>0) {
+            val option = readInt(
+                """
+                  >╔═════════════════════════════════════╗
+                  >║    1) Change order to Incative      ║
+                  >║    2) Change order to active        ║
+                  >╚═════════════════════════════════════╝
+         > Choose option: """.trimMargin(">"))
 
+            when (option) {
+                1 -> MakeOrderInavtive()
+                2 -> MakeOrderActive()
+                else -> println("Invalid option entered: $option");
+            }
+        } else {
+            println("Option Invalid - No order stored");
+        }
+    }
+
+fun MakeOrderInavtive()
+{
+    if (OrderAPI.numberOfActiveOrder()<=0){
+        println("Active Orders  found.")
+        return
+    }
+    listActiveOrder()
+    val seacrhActiveOrderID = readInt("enter the order ID to make INACTIVE: ")
+    if (!OrderAPI.isValidActiveID(seacrhActiveOrderID)){
+        println("Active Order with ID $seacrhActiveOrderID not found.")
+        return
+    }
+    if(OrderAPI.swithcActiveStatus(seacrhActiveOrderID)){
+        println("Changed to INACTIVE successfully")
+    }
+    else{
+        println("Changed to INACTIVE failed!")
+    }
+}
+
+fun MakeOrderActive()
+{
+    if (OrderAPI.numberOfINactiveOrder()<=0){
+        println("Inactive Orders  found.")
+        return
+    }
+    listInactiveOrder()
+    val seacrhActiveOrderID = readInt("enter the order ID to make ACTIVE: ")
+    if (!OrderAPI.isValidInactiveID(seacrhActiveOrderID)){
+        println("Inactive Order with ID $seacrhActiveOrderID not found.")
+        return
+    }
+    if(OrderAPI.swithcActiveStatus(seacrhActiveOrderID)){
+        println("Changed to ACTIVE successfully")
+    }
+    else{
+        println("Changed to ACTIVE failed!")
+    }
+}
 
 fun addProductToOrder()
 {
-    if (OrderAPI.numberOfOrder() <= 0 || ProductAPI.numberOfProduct() <= 0)
+    if (OrderAPI.numberOfActiveOrder() <= 0 || ProductAPI.numberOfNotOrderedProduct() <= 0)
     {
-        println("No order or product stored")
+        println("No order active or no not ordered product")
         return
     }
 
@@ -300,12 +366,12 @@ fun addProductToOrder()
         return
     }
 
-    listAllOrder()
+    listActiveOrder()
     val seacrhOrderID = readInt("enter the order ID in which you want to place the product: ")
 
-    if (!OrderAPI.isValidID(seacrhOrderID))
+    if (!OrderAPI.isValidActiveID(seacrhOrderID))
     {
-        println("Order with ID $seacrhOrderID not found.")
+        println("Active Order with ID $seacrhOrderID not found.")
         return
     }
     if (ProductAPI.addProductToOrder(seacrhProductID, seacrhOrderID))
@@ -343,8 +409,8 @@ fun delateProductFromOrder()
     listActiveOrder()
     val seacrhOrderID = readInt("enter the order ID in which you want to delete the product: ")
 
-    if (!OrderAPI.isValidID(seacrhOrderID)){
-        println("Product with ID $seacrhOrderID not found.")
+    if (!OrderAPI.isValidActiveID(seacrhOrderID)){
+        println("Active Order with ID $seacrhOrderID not found.")
         return
     }
 
@@ -354,7 +420,7 @@ fun delateProductFromOrder()
 
     if (!ProductAPI.isValidID(seacrhProductID))
     {
-        println("Product with ID $seacrhProductID not found.")
+        println("Product with ID $seacrhProductID not found In $seacrhOrderID order.")
         return
     }
     if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID,seacrhProductID))
