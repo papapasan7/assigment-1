@@ -22,3 +22,27 @@ fun readValidPrice(prompt: String?): Double {
         }
     } while (true)
 }
+
+fun readValidCategoryForProduct(prompt: String?): String {
+    var input = readString(prompt)
+    do {
+        if (isValidCategoryForProduct(input))
+            return input
+        else {
+            print("Invalid criterion $input.  Please try again: ")
+            input = readString(prompt)
+        }
+    } while (true)
+}
+
+fun readValidCategoryForOrder(prompt: String?): String {
+    var input = readString(prompt)
+    do {
+        if (isValidCategoryForOrder(input))
+            return input
+        else {
+            print("Invalid criterion $input.  Please try again: ")
+            input = readString(prompt)
+        }
+    } while (true)
+}

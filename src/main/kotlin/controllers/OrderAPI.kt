@@ -145,6 +145,14 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
         else return true
     }
 
+    fun sortOrderByCategory(category: String)=
+            when(category){
+                "id" -> orders.sortBy { order -> order.orderID }
+                "name" -> orders.sortBy { order -> order.customerName }
+
+                else -> println("invalid category")
+            }
+
 
 
     private fun formatListString(OrderToFormat : List<Order>) : String=
