@@ -4,13 +4,13 @@ import ie.setu.models.Order
 import ie.setu.models.Product
 import java.io.File
 import java.lang.System.exit
-
+import persistence.XMLSerializer
 import utils.*
 
 import java.lang.System.exit
 
-private val ProductAPI = ProductAPI()
-private val OrderAPI = OrderAPI(ProductAPI)
+private val ProductAPI = ProductAPI(XMLSerializer(File("product.xml")))
+private val OrderAPI = OrderAPI(ProductAPI,XMLSerializer(File("orders.xml")))
 
 
 fun main() {
@@ -40,7 +40,12 @@ fun mainMenu(): Int {
        > ║   11)add product to order        ║
        > ║   12)list product by order       ║
        > ║   13)Delate product from order   ║
-       > ║   0) Exit                        ║
+       > ╟──────────────────────────────────╢
+       > ║   Save and load aria             ║
+       > ║   19) load orders                ║
+       > ║   20) load products              ║
+       > ║   21) save orders                ║
+       > ║   22) save products              ║
        > ╚══════════════════════════════════╝
         """.trimIndent()
     )
@@ -66,6 +71,10 @@ fun runMenu() {
             12 ->listProductByOrder()
 
             13 ->delateProductFromOrder()
+            19 ->loadOrder()
+            20 ->loadProduct()
+            21 ->saveOrder()
+            22 ->saveProduct()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
@@ -73,6 +82,38 @@ fun runMenu() {
 
 
 }
+fun saveOrder() {
+    try {
+        OrderAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun loadOrder() {
+    try {
+        OrderAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
+fun saveProduct() {
+    try {
+        ProductAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun loadProduct() {
+    try {
+        ProductAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
+    }
+}
+
 
 fun addProduct(){
 

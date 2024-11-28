@@ -1,10 +1,29 @@
 package ie.setu.controllers
+import ie.setu.models.Order
 import ie.setu.models.Product
-class ProductAPI (){
-    internal val products = mutableListOf<Product>()
+import persistence.Serializer
+
+class ProductAPI (serializerType: Serializer){
+    private var serializer: Serializer = serializerType
+    internal var products = mutableListOf<Product>()
     private var idGen :Int = 0;
 
     fun idCreate() = idGen++
+
+
+
+    @Throws(Exception::class)
+    fun load() {
+        products = serializer.read() as ArrayList<Product>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(products)
+    }
+
+
+
 
     fun addProduct(product: Product): Boolean  {
         product.productID = idCreate()

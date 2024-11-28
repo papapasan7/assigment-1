@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.thoughtworks.xstream:xstream:1.4.18")
 }
 
 tasks.test {
