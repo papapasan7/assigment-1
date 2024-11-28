@@ -183,6 +183,16 @@ class ProductAPI (serializerType: Serializer){
 
     }
 
+    fun sortProductByCategory(category: String)=
+         when(category){
+            "id" -> products.sortBy { product -> product.productID }
+            "name" -> products.sortBy { product -> product.productName }
+            "memory" -> products.sortBy { product -> product.memorySize }
+            "price" -> products.sortBy { product -> product.price }
+            else -> println("invalid category")
+        }
+
+
 
     private fun formatListString(productToFormat : List<Product>) : String =
             productToFormat

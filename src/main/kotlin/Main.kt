@@ -30,16 +30,18 @@ fun mainMenu(): Int {
        > ║   2)List product                 ║
        > ║   3)Delete product               ║
        > ║   4)upd product                  ║
+       > ║   5)sort product                 ║
         >║                                  ║
        > ║   6)Add order                    ║
        > ║   7)list Orders                  ║
        > ║   8)Delete order                 ║
        > ║   9)Update product               ║
-       > ║   10)Change Order status         ║
+       > ║   10)Sort order                  ║
+       > ║   11)Change Order status         ║
        > ║                                  ║
-       > ║   11)add product to order        ║
-       > ║   12)list product by order       ║
-       > ║   13)Delate product from order   ║
+       > ║   12)add product to order        ║
+       > ║   13)list product by order       ║
+       > ║   14)Delete product from order   ║
        > ╟──────────────────────────────────╢
        > ║   Save and load aria             ║
        > ║   19) load orders                ║
@@ -60,17 +62,19 @@ fun runMenu() {
             2 -> listProduct()
             3 -> deleteProduct()
             4 -> UpdProdct()
+            5 ->sortProduct()
 
             6 -> addOrder()
             7 -> listOrders()
             8-> deleteOrder()
             9 -> UpdOrder()
-            10 ->changeActiveStatus()
+            10 ->sortOrder()
+            11 ->changeActiveStatus()
 
-            11 ->addProductToOrder()
-            12 ->listProductByOrder()
+            12 ->addProductToOrder()
+            13 ->listProductByOrder()
 
-            13 ->delateProductFromOrder()
+            14 ->delateProductFromOrder()
             19 ->loadOrder()
             20 ->loadProduct()
             21 ->saveOrder()
@@ -220,7 +224,16 @@ fun UpdProdct(){
 
 }
 
+ fun sortProduct(){
+     if (ProductAPI.checkOfNumberAllProduct())
+     {
+         val category = readValidCategoryForProduct("Enter (String input) product criterion for sorting from list ${criterionOfProduct}: ")
+         ProductAPI.sortProductByCategory(category);
+         println("Soreted Product list: ")
+         listAllProduct()
+     }
 
+ }
 
 fun addOrder(){
 
@@ -374,6 +387,17 @@ fun MakeOrderActive()
         }
         }
     }
+}
+
+fun sortOrder(){
+    if (OrderAPI.checkAreNumberOrder())
+    {
+        val category = readValidCategoryForOrder("Enter (String input) order criterion for sorting from list ${criterionOfOrder}: ")
+        OrderAPI.sortOrderByCategory(category);
+        println("Soreted order list: ")
+        listAllOrder()
+    }
+
 }
 
 fun addProductToOrder()
