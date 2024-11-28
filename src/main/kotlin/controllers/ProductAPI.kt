@@ -2,6 +2,7 @@ package ie.setu.controllers
 import ie.setu.models.Order
 import ie.setu.models.Product
 import persistence.Serializer
+import javax.naming.directory.SearchResult
 
 class ProductAPI (serializerType: Serializer){
     private var serializer: Serializer = serializerType
@@ -133,12 +134,12 @@ class ProductAPI (serializerType: Serializer){
 
     fun delateAllProductsFromOrder(orderIDSearch: Int):Boolean {
         var isDelate =false
-        products.forEach({product ->
+        products.forEach{product ->
                              if (orderIDSearch == product.orderID) {
                                  product.orderID = -1
                                  isDelate =true
                              }
-                         })
+                         }
         return isDelate
     }
 
@@ -191,6 +192,31 @@ class ProductAPI (serializerType: Serializer){
             "price" -> products.sortBy { product -> product.price }
             else -> println("invalid category")
         }
+
+    fun SerchByCriteria(criterion: String,SeacrchElement: Any):List<Product> =
+        products.filter { product ->
+
+            when (criterion.lowercase()){
+                "id"-> (SeacrchElement as? Int)?.let { product.productID == SeacrchElement} ?:false  //serach by id
+                "name"-> (SeacrchElement as? String)?.let { product.productName == SeacrchElement} ?:false
+                "memory"-> (SeacrchElement as? Int)?.let { product.memorySize == SeacrchElement} ?:false
+                "price"-> (SeacrchElement as? Double)?.let { product.price == SeacrchElement} ?:false
+                "orderid"-> (SeacrchElement as? Int)?.let { product.orderID == SeacrchElement} ?:false
+                else -> false
+            }
+        }
+
+    fun showByCriteria(criterion: String,SeacrchElement: Any):String=
+
+
+        if (SerchByCriteria(criterion,SeacrchElement).isEmpty())
+
+           "no product whith $SeacrchElement element in $criterion"
+
+        else{
+            formatListString(SerchByCriteria(criterion,SeacrchElement))
+        }
+
 
 
 

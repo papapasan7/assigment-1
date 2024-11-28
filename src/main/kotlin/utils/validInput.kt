@@ -46,3 +46,28 @@ fun readValidCategoryForOrder(prompt: String?): String {
         }
     } while (true)
 }
+
+fun readValidCategoryForProductSearch(prompt: String?): String {
+    var input = readString(prompt)
+    do {
+        if (isValidCategoryForProductSearch(input))
+            return input
+        else {
+            print("Invalid criterion $input.  Please try again: ")
+            input = readString(prompt)
+        }
+    } while (true)
+}
+
+
+fun readValidCategoryForOrderSearch(prompt: String?): String {
+    var input = readString(prompt)
+    do {
+        if (isValidCategoryForOrder(input))
+            return input
+        else {
+            print("Invalid criterion $input.  Please try again: ")
+            input = readString(prompt)
+        }
+    } while (true)
+}

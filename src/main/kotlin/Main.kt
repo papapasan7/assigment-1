@@ -31,13 +31,15 @@ fun mainMenu(): Int {
        > ║   3)Delete product               ║
        > ║   4)upd product                  ║
        > ║   5)sort product                 ║
-        >║                                  ║
+       > ║   15)list product by criterion   ║
+       > ║                                  ║
        > ║   6)Add order                    ║
        > ║   7)list Orders                  ║
        > ║   8)Delete order                 ║
        > ║   9)Update product               ║
        > ║   10)Sort order                  ║
        > ║   11)Change Order status         ║
+       > ║   16)List orders by criterion    ║
        > ║                                  ║
        > ║   12)add product to order        ║
        > ║   13)list product by order       ║
@@ -63,6 +65,7 @@ fun runMenu() {
             3 -> deleteProduct()
             4 -> UpdProdct()
             5 ->sortProduct()
+            15 ->listProductByCriteria()
 
             6 -> addOrder()
             7 -> listOrders()
@@ -70,6 +73,7 @@ fun runMenu() {
             9 -> UpdOrder()
             10 ->sortOrder()
             11 ->changeActiveStatus()
+            16->listOrderByCriteria()
 
             12 ->addProductToOrder()
             13 ->listProductByOrder()
@@ -235,6 +239,21 @@ fun UpdProdct(){
 
  }
 
+ fun listProductByCriteria(){
+     if (ProductAPI.checkOfNumberAllProduct()){
+         val category = readValidCategoryForProductSearch("Enter (String input) product criterion for search from list ${criterionOfProductSearch}: ")
+         var serchElement:Any = 0
+         when(category)
+         {
+             "id","memory","orderid" -> serchElement=readInt("Input INT element to search: ")
+             "name"-> serchElement=readString("Input String element to search: ")
+             "size" ->serchElement= readDouble("Input Double element to search: ")
+         }
+         println(ProductAPI.showByCriteria(category,serchElement))
+     }
+
+ }
+
 fun addOrder(){
 
     val customerName = readString("Enter customer Name : ")
@@ -396,6 +415,20 @@ fun sortOrder(){
         OrderAPI.sortOrderByCategory(category);
         println("Soreted order list: ")
         listAllOrder()
+    }
+
+}
+
+fun listOrderByCriteria(){
+    if (OrderAPI.checkAreNumberOrder()){
+        val category = readValidCategoryForOrderSearch("Enter (String input) order criterion for search from list ${criterionOfOrder}: ")
+        var serchElement:Any = 0
+        when(category)
+        {
+            "id" -> serchElement=readInt("Input INT element to search: ")
+            "name"-> serchElement=readString("Input String element to search: ")
+        }
+        println(OrderAPI.showByCriteria(category,serchElement))
     }
 
 }

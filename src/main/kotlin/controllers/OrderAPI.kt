@@ -1,5 +1,6 @@
 package ie.setu.controllers
 import ie.setu.models.Order
+import ie.setu.models.Product
 import persistence.Serializer
 
 
@@ -153,6 +154,27 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
                 else -> println("invalid category")
             }
 
+
+
+    fun SerchByCriteria(criterion: String,SeacrchElement: Any):List<Order> =
+            orders.filter { order ->
+                when (criterion.lowercase()){
+                    "id"-> (SeacrchElement as? Int)?.let { order.orderID == SeacrchElement} ?:false  //serach by id
+                    "name"-> (SeacrchElement as? String)?.let { order.customerName == SeacrchElement} ?:false
+                    else -> false
+                }
+            }
+
+    fun showByCriteria(criterion: String,SeacrchElement: Any):String=
+
+
+            if (SerchByCriteria(criterion,SeacrchElement).isEmpty())
+
+                "no order whith $SeacrchElement element in $criterion"
+
+            else{
+                formatListString(SerchByCriteria(criterion,SeacrchElement))
+            }
 
 
     private fun formatListString(OrderToFormat : List<Order>) : String=
