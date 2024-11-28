@@ -1,6 +1,6 @@
 package utils
 
-fun readInt(prompt: String): Int {
+fun readInt(prompt: String?): Int {
     while (true) {
         print(prompt)
         val input = readLine()
@@ -12,7 +12,7 @@ fun readInt(prompt: String): Int {
     }
 }
 
-fun readDouble(prompt: String): Double {
+fun readDouble(prompt: String?): Double {
     while (true) {
         print(prompt)
         val input = readLine()
@@ -24,7 +24,7 @@ fun readDouble(prompt: String): Double {
     }
 }
 
-fun readString(prompt: String): String {
+fun readString(prompt: String?): String {
     while (true) {
         print(prompt)
         val input = readLine()

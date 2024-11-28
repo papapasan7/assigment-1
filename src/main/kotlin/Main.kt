@@ -21,27 +21,27 @@ fun main() {
 fun mainMenu(): Int {
     print(
         """
-        ╔══════════════════════════════════╗
-        ║                                  ║
-        ║     Storage control app MENU     ║
-        ║                                  ║
-        ╟──────────────────────────────────╢
-        ║   1)Add product                  ║
-        ║   2)List product                 ║
-        ║   3)Delete product               ║
-        ║   4)upd product                  ║
-        ║                                  ║
-        ║   6)Add order                    ║
-        ║   7)list Orders                  ║
-        ║   8)Delete order                 ║
-        ║   9)Update product               ║
-        ║   10)Change Order status         ║
-        ║                                  ║
-        ║   11)add product to order        ║
-        ║   12)list product by order       ║
-        ║   13)Delate product from order   ║
-        ║   0) Exit                        ║
-        ╚══════════════════════════════════╝
+       > ╔══════════════════════════════════╗
+        >║                                  ║
+       > ║     Storage control app MENU     ║
+       > ║                                  ║
+       > ╟──────────────────────────────────╢
+       > ║   1)Add product                  ║
+       > ║   2)List product                 ║
+       > ║   3)Delete product               ║
+       > ║   4)upd product                  ║
+        >║                                  ║
+       > ║   6)Add order                    ║
+       > ║   7)list Orders                  ║
+       > ║   8)Delete order                 ║
+       > ║   9)Update product               ║
+       > ║   10)Change Order status         ║
+       > ║                                  ║
+       > ║   11)add product to order        ║
+       > ║   12)list product by order       ║
+       > ║   13)Delate product from order   ║
+       > ║   0) Exit                        ║
+       > ╚══════════════════════════════════╝
         """.trimIndent()
     )
     return readInt("\nInput your choice: ")
@@ -86,8 +86,8 @@ fun addProduct(){
     else {
 
         val productName = readString("Enter product name: ")
-        val memorySize = readInt("Memory size in (gb): ")
-        val price = readDouble("Enter price: ")
+        val memorySize = readValidSize("Memory size in (gb) from select choose ${categories}: ")
+        val price = readValidPrice("Enter price: ")
             repeat(count)  {
 
                 val isAdd = ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
@@ -111,7 +111,7 @@ fun listProduct() {
                   >║    2) View NOT stored products      ║
                   >║    2) View  Ordered products        ║
                   >╚═════════════════════════════════════╝
-         Choose what list do u want: """.trimMargin(">"))
+         >Choose what list do u want: """.trimMargin(">"))
 
         when (option) {
             1 -> listAllProduct();
@@ -165,8 +165,8 @@ fun UpdProdct(){
        if (ProductAPI.checkIsValidProductID(seacrhID)) {
 
            val productName = readString("Enter product name: ")
-           val memorySize = readInt("Memory size in (gb): ")
-           val price = readDouble("Enter price: ")
+           val memorySize = readValidSize("Memory size in (gb) from select choose ${categories}: ")
+           val price = readValidPrice("Enter price: ")
            val isAdd = ProductAPI.updateProduct(seacrhID, productName, memorySize, price)
            if (isAdd) {
                println("Product update successfully!")
