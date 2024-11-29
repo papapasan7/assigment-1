@@ -160,7 +160,7 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
             orders.filter { order ->
                 when (criterion.lowercase()){
                     "id"-> (SeacrchElement as? Int)?.let { order.orderID == SeacrchElement} ?:false  //serach by id
-                    "name"-> (SeacrchElement as? String)?.let { order.customerName == SeacrchElement} ?:false
+                    "name"-> (SeacrchElement as? String)?.let { order.customerName.lowercase() == SeacrchElement.lowercase()} ?:false
                     else -> false
                 }
             }
