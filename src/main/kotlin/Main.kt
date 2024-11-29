@@ -31,19 +31,21 @@ fun mainMenu(): Int {
        > ║   3)Delete product               ║
        > ║   4)upd product                  ║
        > ║   5)sort product                 ║
-       > ║   15)list product by criterion   ║
+       > ║   6)list product by criterion    ║
+       > ║   7)Check is product in stock    ║
+       > ║    (no order product)by name     ║
        > ║                                  ║
-       > ║   6)Add order                    ║
-       > ║   7)list Orders                  ║
-       > ║   8)Delete order                 ║
-       > ║   9)Update product               ║
-       > ║   10)Sort order                  ║
-       > ║   11)Change Order status         ║
-       > ║   16)List orders by criterion    ║
+       > ║   8)Add order                    ║
+       > ║   9)list Orders                  ║
+       > ║   10)Delete order                ║
+       > ║   11)Update order                ║
+       > ║   12)Sort order                  ║
+       > ║   13)Change Order status         ║
+       > ║   14)List orders by criterion    ║
        > ║                                  ║
-       > ║   12)add product to order        ║
-       > ║   13)list product by order       ║
-       > ║   14)Delete product from order   ║
+       > ║   15)add product to order        ║
+       > ║   16)list product by order       ║
+       > ║   17)Delete product from order   ║
        > ╟──────────────────────────────────╢
        > ║   Save and load aria             ║
        > ║   19) load orders                ║
@@ -65,20 +67,21 @@ fun runMenu() {
             3 -> deleteProduct()
             4 -> UpdProdct()
             5 ->sortProduct()
-            15 ->listProductByCriteria()
+            6 ->listProductByCriteria()
+            7 ->stockChek()
 
-            6 -> addOrder()
-            7 -> listOrders()
-            8-> deleteOrder()
-            9 -> UpdOrder()
-            10 ->sortOrder()
-            11 ->changeActiveStatus()
-            16->listOrderByCriteria()
+            8 -> addOrder()
+            9 -> listOrders()
+            10-> deleteOrder()
+            11 -> UpdOrder()
+            12 ->sortOrder()
+            13 ->changeActiveStatus()
+            14->listOrderByCriteria()
 
-            12 ->addProductToOrder()
-            13 ->listProductByOrder()
+            15 ->addProductToOrder()
+            16 ->listProductByOrder()
+            17 ->delateProductFromOrder()
 
-            14 ->delateProductFromOrder()
             19 ->loadOrder()
             20 ->loadProduct()
             21 ->saveOrder()
@@ -247,12 +250,26 @@ fun UpdProdct(){
          {
              "id","memory","orderid" -> serchElement=readInt("Input INT element to search: ")
              "name"-> serchElement=readString("Input String element to search: ")
-             "size" ->serchElement= readDouble("Input Double element to search: ")
+             "price" ->serchElement= readDouble("Input Double element to search: ")
          }
          println(ProductAPI.showByCriteria(category,serchElement))
      }
 
  }
+
+fun stockChek(){
+    if (ProductAPI.checkOfNumberNotStoredProduct()){
+        val searchProduct = readString("Enter product name for stock check: ")
+        if (ProductAPI.countIsInStockByName(searchProduct)>0)
+        {
+            println("Its ${ProductAPI.countIsInStockByName(searchProduct)} prduct with name $searchProduct in stock\n"  +
+                            "List of this product:\n "+ProductAPI.checkIsStock(searchProduct))
+        }
+        else{
+            println("Product with name $searchProduct is not in stock")
+        }
+    }
+}
 
 fun addOrder(){
 
@@ -433,6 +450,8 @@ fun listOrderByCriteria(){
 
 }
 
+
+
 fun addProductToOrder()
 {
     if (OrderAPI.checkOfNumberActiveOrder() && ProductAPI.checkOfNumberNotStoredProduct())
@@ -467,12 +486,12 @@ fun addProductToOrder()
 fun listProductByOrder()
 {
     if (OrderAPI.checkAreNumberOrder()) {
-            listActiveOrder()
+            listAllOrder()
             val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
             if (OrderAPI.checkIsOrderValidID(seacrhOrderID))
             {
 
-                println(ProductAPI.showProductByOrder(seacrhOrderID))
+                println("Product by order with id $seacrhOrderID \n +${ProductAPI.showProductByOrder(seacrhOrderID)}")
             }
         }
 }
