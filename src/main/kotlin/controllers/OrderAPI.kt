@@ -178,7 +178,7 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
 
 
     private fun formatListString(OrderToFormat : List<Order>) : String=
-         OrderToFormat.joinToString(separator = "\n"){order ->
+         OrderToFormat.joinToString(separator = "\n\n"){order ->
             val productFind = productAPI.products.filter { product ->  product.orderID == order.orderID }
             if (productFind.isEmpty()){
                 OrderToFormat.indexOf(order).toString() +": "+order.toString()+"\n No products in this order"
