@@ -46,6 +46,8 @@ fun mainMenu(): Int {
        > ║   15)add product to order        ║
        > ║   16)list product by order       ║
        > ║   17)Delete product from order   ║
+       > ║   18)Show sum of product price   ║
+       > ║      by order                    ║
        > ╟──────────────────────────────────╢
        > ║   Save and load aria             ║
        > ║   19) load orders                ║
@@ -81,7 +83,7 @@ fun runMenu() {
             15 ->addProductToOrder()
             16 ->listProductByOrder()
             17 ->delateProductFromOrder()
-
+            18 ->showProductPriceSumByOrder()
             19 ->loadOrder()
             20 ->loadProduct()
             21 ->saveOrder()
@@ -175,14 +177,14 @@ fun listProduct() {
 }
 
 fun listAllProduct(){
-    println(ProductAPI.showProduct())
+    println("List of all products: \n"+ProductAPI.showProduct())
 }
 fun listNotOrderedProduct(){
-    println(ProductAPI.showNotOrderdProduct())
+    println("List of not ordered products: \n"+ProductAPI.showNotOrderdProduct())
 }
 
 fun listOrderedProduct(){
-    println(ProductAPI.showOrderdProduct())
+    println("List of ordered products: \n"+ProductAPI.showOrderdProduct())
 }
 
 
@@ -459,7 +461,7 @@ fun addProductToOrder()
 
 
         listNotOrderedProduct()
-        val seacrhProductID = readInt("Enter the product id you want to add to your order: ")
+        val seacrhProductID = readInt("Enter the product ID you want to add to your order: ")
 
         if (ProductAPI.checkIsValidNotStoredProductID(seacrhProductID))
         {
@@ -496,6 +498,23 @@ fun listProductByOrder()
         }
 }
 
+fun showProductPriceSumByOrder(){
+    if (OrderAPI.checkAreNumberOrder()&& ProductAPI.checkOfNumberStoredProduct())
+    {
+        listAllOrder()
+        val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
+        if (OrderAPI.checkIsOrderValidID(seacrhOrderID))
+        {
+            if (ProductAPI.checkIsOrderHasProducts(seacrhOrderID))
+            {
+                println(ProductAPI.countProductSumPriceInOrder(seacrhOrderID))
+
+            }
+        }
+
+    }
+}
+
 
 
 fun delateProductFromOrder()
@@ -508,22 +527,24 @@ fun delateProductFromOrder()
 
         if (OrderAPI.checkIsValidActiveID(seacrhOrderID))
         {
-
-
-            println(ProductAPI.showProductByOrder(seacrhOrderID))
-
-            val seacrhProductID = readInt("Enter the product id you want to delete from your order: ")
-
-            if (ProductAPI.checkIsValidProductID(seacrhProductID))
+            if (ProductAPI.checkIsOrderHasProducts(seacrhOrderID))
             {
 
-                if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID, seacrhProductID))
+                println("Product by order with id $seacrhOrderID \n +${ProductAPI.showProductByOrder(seacrhOrderID)}")
+
+                val seacrhProductID = readInt("Enter the product id you want to delete from your order: ")
+
+                if (ProductAPI.checkIsValidProductID(seacrhProductID))
                 {
-                    println("Product delete successfully!")
-                }
-                else
-                {
-                    println("Product delete field")
+
+                    if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID, seacrhProductID))
+                    {
+                        println("Product delete successfully!")
+                    }
+                    else
+                    {
+                        println("Product delete field")
+                    }
                 }
             }
         }
