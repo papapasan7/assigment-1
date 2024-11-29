@@ -1,5 +1,0 @@
-package contrlollersTest
-
-class OrderAPITest
-{
-}
