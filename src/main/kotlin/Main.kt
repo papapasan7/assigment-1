@@ -44,8 +44,10 @@ fun mainMenu(): Int {
        > ║   14)List orders by criterion    ║
        > ║                                  ║
        > ║   15)add product to order        ║
+       > ║   (only for active orders)       ║
        > ║   16)list product by order       ║
        > ║   17)Delete product from order   ║
+       > ║   (only for active orders)       ║
        > ║   18)Show sum of product price   ║
        > ║      by order                    ║
        > ╟──────────────────────────────────╢
@@ -163,7 +165,7 @@ fun listProduct() {
                   >╔═════════════════════════════════════╗
                   >║    1) View ALL products             ║
                   >║    2) View NOT stored products      ║
-                  >║    2) View  Ordered products        ║
+                  >║    3) View  Ordered products        ║
                   >╚═════════════════════════════════════╝
          >Choose what list do u want: """.trimMargin(">"))
 
@@ -199,10 +201,10 @@ fun deleteProduct()
         {
             if (ProductAPI.delatePtoduct(seacrhID))
             {
-                println("Ptoduct deleted successfully.")
+                println("Product deleted successfully.")
             }
             else{
-                println("Ptoduct deleted failed.")
+                println("Product deleted failed.")
             }
         }
 
@@ -309,13 +311,13 @@ fun listOrders() {
 
 
 fun listAllOrder(){
-    println(OrderAPI.showOrder())
+    println("List of all orders: \n"+OrderAPI.showOrder())
 }
 fun listActiveOrder(){
-    println(OrderAPI.showOrderActive())
+    println("List of active orders: \n"+OrderAPI.showOrderActive())
 }
 fun listInactiveOrder(){
-    println(OrderAPI.showOrderINactive())
+    println("List of inactive orders: \n"+OrderAPI.showOrderINactive())
 }
 
 

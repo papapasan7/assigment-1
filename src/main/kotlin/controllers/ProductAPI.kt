@@ -39,13 +39,13 @@ class ProductAPI (serializerType: Serializer)
 
     fun showNotOrderdProduct() =
             if (numberOfNotOrderedProduct() <= 0)
-                "No Orderedd product"
+                "No Ordered product"
             else formatListString(products.filter { product -> product.orderID == -1 })
 
 
     fun showOrderdProduct() =
             if (numberOfOrderedProduct() <= 0)
-                "No Orderedd product"
+                "No Ordered product"
             else formatListString(products.filter { product -> product.orderID != -1 })
 
     fun delatePtoduct(findID: Int): Boolean =
@@ -76,7 +76,7 @@ class ProductAPI (serializerType: Serializer)
 
         if (numberOfNotOrderedProduct() <= 0)
         {
-            println("no not orderd product")
+            println("no not ordered product")
             return false
         }
         else return true
@@ -87,7 +87,7 @@ class ProductAPI (serializerType: Serializer)
 
         if (numberOfOrderedProduct() <= 0)
         {
-            println("no  orderd product")
+            println("no  ordered product")
             return false
         }
         else return true
@@ -132,7 +132,7 @@ class ProductAPI (serializerType: Serializer)
 
         if (!isValidNotStoredProductID(searchProductID))
         {
-            println("Its Valid no orderd  Product ID $searchProductID")
+            println("Its not Valid not ordered  Product ID $searchProductID")
             return false
         }
         else return true
@@ -283,7 +283,7 @@ class ProductAPI (serializerType: Serializer)
 
     private fun formatListString(productToFormat : List<Product>) : String =
             productToFormat
-                .joinToString (separator = "\n") { product ->
+                .joinToString (separator = "\n\n") { product ->
                     products.indexOf(product).toString() + ": " + product.toString() }
 
 }
