@@ -121,7 +121,7 @@ class ProductAPI (serializerType: Serializer)
 
         if (!isValidID(searchProductID))
         {
-            println("Its Valid  Product ID $searchProductID")
+            println("Its not Valid  Product ID $searchProductID")
             return false
         }
         else return true
@@ -181,6 +181,27 @@ class ProductAPI (serializerType: Serializer)
             isValidOrder.joinToString(separator = "\n") { product ->
                 "  " + products.indexOf(product).toString() + ": " + product.toString()
             }
+        }
+    }
+
+
+    fun countProductSumPriceInOrder(seacrhOrderID: Int): String
+    {
+        var sum =0.0
+       SerchByCriteria("orderid", seacrhOrderID) .forEach{ product ->
+           sum+= product.price
+       }
+        return "Sum of product price by order with id $seacrhOrderID = $sum"
+    }
+
+    fun checkIsOrderHasProducts(searchOrderID: Int): Boolean{
+        val result = products.any { product -> product.orderID == searchOrderID }
+        if (!result){
+            println("Its not Ordered  Product in order with ID $searchOrderID")
+            return false
+        }
+        else{
+            return true
         }
     }
 
