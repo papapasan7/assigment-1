@@ -163,9 +163,10 @@ class OrderAPITest
     }
 
     @Nested
-    inner class DeleteOrders {
+    inner class DeleteOrdersTest {
         @Test
         fun `is return false when u delete empty list`(){
+            assertEquals(0,emptyOrders!!.numberOfOrder())
             assertFalse(emptyOrders!!.delateOrder(1))
 
         }
@@ -183,18 +184,43 @@ class OrderAPITest
 
 
         }
+        @Test
+        fun `is return false when u  delete  order with wrong id `(){
+
+            assertEquals(4, populatedOrders!!.numberOfOrder())
+            val result2 = populatedOrders!!.SerchByCriteria("id",4)
+            assertTrue( result2.isEmpty())
+            val result = populatedOrders!!.delateOrder(4)
+            assertFalse(result)
+
+
+
+        }
 
 
     }
 
     @Nested
-    inner class Update {
+    inner class UpdateTest {
         @Test
         fun `is return false when u update empty list`(){
+            assertEquals(0,emptyOrders!!.numberOfOrder())
             assertFalse(emptyOrders!!.updateOrder(1,"Sasha"))
 
         }
 
+        @Test
+        fun `is return false when u  update  order with wrong id`(){
+            val result1 = populatedOrders!!.showByCriteria("id",4)
+            assertTrue( result1.contains("no order whith 4 element in id"))
+            assertFalse(populatedOrders!!.updateOrder(4,"Sasha"))
+            populatedOrders!!.updateOrder(4,"Sasha")
+            val result2 = populatedOrders!!.showByCriteria("id",4)
+
+            assertTrue( result2.contains("no order whith 4 element in id"))
+
+
+        }
         @Test
         fun `check is update order Work`(){
             val result1 = populatedOrders!!.showByCriteria("id",3)
@@ -212,7 +238,7 @@ class OrderAPITest
 
 
     @Nested
-    inner class checkOfNumber {
+    inner class checkOfNumberTest {
         @Test
         fun `is return false when u checkOfNumber of  empty list`(){
             assertFalse(emptyOrders!!.checkAreNumberOrder())
@@ -229,7 +255,7 @@ class OrderAPITest
 
     }
     @Nested
-    inner class checkOfActiveNumber {
+    inner class checkOfActiveNumberTest {
         @Test
         fun `is return false when u checkOfActiveNumber of  empty list`(){
             assertFalse(emptyOrders!!.checkOfNumberActiveOrder())
@@ -247,7 +273,7 @@ class OrderAPITest
     }
 
     @Nested
-    inner class checkOfInactiveNumber {
+    inner class checkOfInactiveNumberTest {
         @Test
         fun `is return false when u checkOfInactiveNumber of  empty list`(){
             assertFalse(emptyOrders!!.checkOfNumberInactiveOrder())
@@ -265,7 +291,7 @@ class OrderAPITest
     }
 
     @Nested
-    inner class isValidIdAllType {
+    inner class isValidIdAllTypeTest {
         @Test
         fun `is return false when u check Of IsValId of  empty list`(){
             assertFalse(emptyOrders!!.isValidID(1))
@@ -273,12 +299,20 @@ class OrderAPITest
         }
 
         @Test
-        fun `check is check Of checkOfIsValId order  Work`(){
+        fun `check is  checkOfIsValId order  Work`(){
             assertTrue(populatedOrders!!.isValidID(1))
             val result1 = populatedOrders!!.showByCriteria("id",1)
             assertTrue( result1.contains("1"))
 
         }
+        @Test
+        fun `check if isValId order  give false if u input wrong  id`(){
+            assertFalse(populatedOrders!!.isValidID(5))
+            val result1 = populatedOrders!!.SerchByCriteria("id",5)
+            assertTrue( result1.isEmpty())
+
+        }
+
 
         @Test
         fun `is return false when u check isValidActiveID of  empty list`(){
@@ -287,10 +321,17 @@ class OrderAPITest
         }
 
         @Test
-        fun `check is check Of isValidActiveID order  Work`(){
+        fun `check if isValidActiveID order  Work`(){
             assertTrue(populatedOrders!!.isValidActiveID(1))
             val result1 = populatedOrders!!.showByCriteria("id",1)
             assertTrue( result1.contains("true"))
+        }
+        @Test
+        fun `check if isValidActiveID order  give false if u input wrong active id`(){
+            assertFalse(populatedOrders!!.isValidActiveID(3))
+            val result1 = populatedOrders!!.showByCriteria("id",3)
+            assertTrue( result1.contains("false"))
+
         }
 
         @Test
@@ -300,10 +341,18 @@ class OrderAPITest
         }
 
         @Test
-        fun `check is check Of isValidInactiveID order  Work`(){
+        fun `check if isValidInactiveID order  Work`(){
             assertTrue(populatedOrders!!.isValidInactiveID(3))
             val result1 = populatedOrders!!.showByCriteria("id",3)
             assertTrue( result1.contains("false"))
+
+        }
+
+        @Test
+        fun `check if isValidInactiveID order  give false if u input wrong Inactive id`(){
+            assertFalse(populatedOrders!!.isValidInactiveID(1))
+            val result1 = populatedOrders!!.showByCriteria("id",1)
+            assertTrue( result1.contains("true"))
 
         }
 
@@ -316,10 +365,16 @@ class OrderAPITest
 
         }
         @Test
-        fun `check is check Of checkOfIsValId order  Work`(){
+        fun `check is checkOfIsValId of order  Work`(){
             assertTrue(populatedOrders!!.checkIsOrderValidID(3))
             val result1 = populatedOrders!!.showByCriteria("id",3)
             assertTrue( result1.contains("3"))
+        }
+        @Test
+        fun `check if checkOfIsValId of order give false when u ipunt  wrong id`(){
+            assertFalse(populatedOrders!!.checkIsOrderValidID(5))
+            val result1 = populatedOrders!!.SerchByCriteria("id",5)
+            assertTrue( result1.isEmpty())
         }
 
         @Test
@@ -328,11 +383,19 @@ class OrderAPITest
 
         }
         @Test
-        fun `check is check Of checkIsValidActiveID order  Work`(){
+        fun `check if  checkIsValidActiveID of active order  Work`(){
             assertTrue(populatedOrders!!.checkIsValidActiveID(1))
             val result1 = populatedOrders!!.showByCriteria("id",1)
             assertTrue( result1.contains("true"))
         }
+
+        @Test
+        fun `check if checkIsValidActiveID of order give false when u ipunt  wrong active id`(){
+            assertFalse(populatedOrders!!.checkIsValidActiveID(3))
+            val result1 = populatedOrders!!.showByCriteria("id",3)
+            assertTrue( result1.contains("false"))
+        }
+
         @Test
         fun `is return false when u checkIsValidInactiveID of  empty list`(){
             assertFalse(emptyOrders!!.checkIsValidInactiveID(1))
@@ -343,6 +406,12 @@ class OrderAPITest
             assertTrue(populatedOrders!!.checkIsValidInactiveID(3))
             val result1 = populatedOrders!!.showByCriteria("id",3)
             assertTrue( result1.contains("false"))
+        }
+        @Test
+        fun `check if checkIsValidActiveID of order give false when u ipunt  wrong inactive id`(){
+            assertFalse(populatedOrders!!.checkIsValidInactiveID(1))
+            val result1 = populatedOrders!!.showByCriteria("id",1)
+            assertTrue( result1.contains("true"))
         }
 
     }
@@ -418,7 +487,7 @@ class OrderAPITest
         @Test
         fun `check is run SearchByCriteria for with showByCriteriaTest with wrong criteria give empty`(){
             val result =populatedOrders!!.showByCriteria("id","1")
-
+            assertTrue(result.contains("no order whith 1 element in id"))
 
         }
     }
