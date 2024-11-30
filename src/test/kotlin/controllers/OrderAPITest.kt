@@ -69,7 +69,7 @@ class OrderAPITest
     }
 
     @Nested
-    inner class AddNotes {
+    inner class AddOrder {
         @Test
         fun `adding a Order to a populated list adds to ArrayList`() {
             val newOrder = Order(4,"Tolic",  true)
