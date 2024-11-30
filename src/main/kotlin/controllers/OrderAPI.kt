@@ -39,7 +39,7 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
 
     fun showOrderActive()=
             if (numberOfActiveOrder()<=0)
-                "No Actice Orders stored"
+                "No Active Orders stored"
             else formatListString(orders.filter { order -> order.isActive})
 
     fun showOrderINactive()=
@@ -147,19 +147,20 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
     }
 
     fun sortOrderByCategory(category: String)=
-            when(category){
-                "id" -> orders.sortBy { order -> order.orderID }
-                "name" -> orders.sortBy { order -> order.customerName }
 
-                else -> println("invalid category")
-            }
+        when (category)
+        {
+            "id" -> orders.sortBy { order -> order.orderID }
+            "name" -> orders.sortBy { order -> order.customerName }
+            else -> orders.sortBy { order -> order.orderID }
+        }
 
 
 
     fun SerchByCriteria(criterion: String,SeacrchElement: Any):List<Order> =
             orders.filter { order ->
                 when (criterion.lowercase()){
-                    "id"-> (SeacrchElement as? Int)?.let { order.orderID == SeacrchElement} ?:false  //serach by id
+                    "id"->  (SeacrchElement as? Int)?.let { order.orderID == SeacrchElement} ?:false //serach by id
                     "name"-> (SeacrchElement as? String)?.let { order.customerName.lowercase() == SeacrchElement.lowercase()} ?:false
                     else -> false
                 }

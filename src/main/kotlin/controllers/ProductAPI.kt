@@ -229,7 +229,7 @@ class ProductAPI (serializerType: Serializer)
                 "name" -> products.sortBy { product -> product.productName }
                 "memory" -> products.sortBy { product -> product.memorySize }
                 "price" -> products.sortBy { product -> product.price }
-                else -> println("invalid category")
+                else ->products.sortBy { product -> product.productID }
             }
 
     fun SerchByCriteria(criterion: String, SeacrchElement: Any): List<Product> =
