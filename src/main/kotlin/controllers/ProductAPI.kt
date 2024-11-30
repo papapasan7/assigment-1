@@ -39,7 +39,7 @@ class ProductAPI (serializerType: Serializer)
 
     fun showNotOrderdProduct() =
             if (numberOfNotOrderedProduct() <= 0)
-                "No Ordered product"
+                "No Inordered product"
             else formatListString(products.filter { product -> product.orderID == -1 })
 
 
@@ -174,7 +174,7 @@ class ProductAPI (serializerType: Serializer)
         val isValidOrder = products.filter { product -> product.orderID == seacrhOrderID }
         return if (isValidOrder.isEmpty())
         {
-            " No stored product in order with id $seacrhOrderID"
+            "No stored product in order with id $seacrhOrderID"
         }
         else
         {
