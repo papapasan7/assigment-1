@@ -235,10 +235,9 @@ class ProductAPI (serializerType: Serializer)
     fun SerchByCriteria(criterion: String, SeacrchElement: Any): List<Product> =
             products.filter { product ->
 
-                when (criterion.lowercase())
+                when (criterion)
                 {
-                    "id" -> (SeacrchElement as? Int)?.let { product.productID == SeacrchElement }
-                        ?: false  //serach by id
+                    "id" -> (SeacrchElement as? Int)?.let { product.productID == SeacrchElement } ?: false  //serach by id
                     "name" -> (SeacrchElement as? String)?.let { product.productName.lowercase() == SeacrchElement.lowercase() } ?: false
                     "memory" -> (SeacrchElement as? Int)?.let { product.memorySize == SeacrchElement } ?: false
                     "price" -> (SeacrchElement as? Double)?.let { product.price == SeacrchElement } ?: false
@@ -252,7 +251,7 @@ class ProductAPI (serializerType: Serializer)
 
             if (SerchByCriteria(criterion, SeacrchElement).isEmpty())
 
-                "no product whith $SeacrchElement element in $criterion"
+                "no product with $SeacrchElement element in $criterion"
             else
             {
                 formatListString(SerchByCriteria(criterion, SeacrchElement))

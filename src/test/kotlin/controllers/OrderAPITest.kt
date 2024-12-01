@@ -212,12 +212,12 @@ class OrderAPITest
         @Test
         fun `is return false when u  update  order with wrong id`(){
             val result1 = populatedOrders!!.showByCriteria("id",4)
-            assertTrue( result1.contains("no order whith 4 element in id"))
+            assertTrue( result1.contains("no order with 4 element in id"))
             assertFalse(populatedOrders!!.updateOrder(4,"Sasha"))
             populatedOrders!!.updateOrder(4,"Sasha")
             val result2 = populatedOrders!!.showByCriteria("id",4)
 
-            assertTrue( result2.contains("no order whith 4 element in id"))
+            assertTrue( result2.contains("no order with 4 element in id"))
 
 
         }
@@ -420,9 +420,19 @@ class OrderAPITest
     inner class sortOrderByCategory {
         @Test
         fun `check is sortOrderByCategory work`(){
+
+            val result =populatedOrders!!.showOrder()
             populatedOrders!!.sortOrderByCategory("id")
+            val result2 = populatedOrders!!.showOrder()
+            assertEquals(result,result2)
             populatedOrders!!.sortOrderByCategory("name")
+            val result3 = populatedOrders!!.showOrder()
+            assertNotEquals(result,result3)
             populatedOrders!!.sortOrderByCategory("nadsadme")
+            val result4 = populatedOrders!!.showOrder()
+            assertEquals(result4,result)
+
+
         }
         @Test
         fun `check is sortOrderByCategory empty list`(){
@@ -453,15 +463,22 @@ class OrderAPITest
 
         }
         @Test
-        fun `check is run SearchByCriteria for with populatedOrders with wrong criteria give empty`(){
-
-            val result1 =populatedOrders!!.SerchByCriteria("asdas","Dima")
-            assertTrue(result1.isEmpty())
-            val result2 =populatedOrders!!.SerchByCriteria("id","adsd")
-            assertTrue(result2.isEmpty())
-
+        fun `check is run SearchByCriteria   with wrong searchElement give empty`(){
+            val result =populatedOrders!!.SerchByCriteria("id","1")
+            assertTrue(result.isEmpty())
+            val result2 =populatedOrders!!.showByCriteria("id","1")
+            assertTrue(result2.contains("no order with 1 element in id"))
 
         }
+        @Test
+        fun `check is run SearchByCriteria   with wrong criteria give empty`(){
+            val result =populatedOrders!!.SerchByCriteria("isadasd",1)
+            assertTrue(result.isEmpty())
+            val result2 =populatedOrders!!.showByCriteria("isadasd",1)
+            assertTrue(result2.contains("no order with 1 element in isadasd"))
+
+        }
+
     }
 
 
@@ -470,11 +487,12 @@ class OrderAPITest
         @Test
         fun `check is run showByCriteriaTest for empty list`(){
             assertEquals(0,emptyOrders!!.numberOfOrder())
-            val result =emptyOrders!!.SerchByCriteria("id",1)
-            assertTrue(result.isEmpty())
+            val result =emptyOrders!!.showByCriteria("id",1)
+            assertTrue(result.contains("no order with 1 element in id"))
+
         }
         @Test
-        fun `check is run showByCriteriaTest for with populatedOrders work correct`(){
+        fun `check is run showByCriteriaTest for  populatedOrders work correct`(){
 
 
             val result2 =populatedOrders!!.showByCriteria("name","Dima")
@@ -485,11 +503,21 @@ class OrderAPITest
 
         }
         @Test
-        fun `check is run SearchByCriteria for with showByCriteriaTest with wrong criteria give empty`(){
-            val result =populatedOrders!!.showByCriteria("id","1")
-            assertTrue(result.contains("no order whith 1 element in id"))
+        fun `check is run showByCriteriaTest   with wrong searchElement give empty`(){
+
+            val result2 =populatedOrders!!.showByCriteria("id","1")
+            assertTrue(result2.contains("no order with 1 element in id"))
 
         }
+        @Test
+        fun `check is run showByCriteriaTest   with wrong criteria give empty`(){
+
+            val result2 =populatedOrders!!.showByCriteria("isadasd",1)
+            assertTrue(result2.contains("no order with 1 element in isadasd"))
+
+        }
+
+
     }
 
     @Nested

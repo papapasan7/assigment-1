@@ -17,10 +17,10 @@ class ProductAPITest
     private var orderActive2: Order? = null
     private var orderInactive1: Order? = null
     private var orderInactive2: Order? = null
-    private var NotStoredProduct1: Product? = null
-    private var NotStoredProduct2: Product? = null
-    private var StoredProduct1: Product? = null
-    private var StoredProduct2: Product? = null
+    private var notStoredProduct1: Product? = null
+    private var notStoredProduct2: Product? = null
+    private var storedProduct1: Product? = null
+    private var storedProduct2: Product? = null
     private var populateProduct: ProductAPI? = ProductAPI(XMLSerializer(File("notes.xml")))
 
     private var emptyProduct: ProductAPI? = ProductAPI(XMLSerializer(File("empty-orderss.xml")))
@@ -40,15 +40,15 @@ class ProductAPITest
         populatedOrders!!.addOrder(orderInactive1!!)
         populatedOrders!!.addOrder(orderInactive2!!)
 
-        NotStoredProduct1 = Product(0, "iphone", 64, 250.5, -1)
-        NotStoredProduct2 = Product(1, "iphone", 64, 250.5, -1)
-        StoredProduct1 = Product(2, "honor", 128, 255.5, 1)
-        StoredProduct2 = Product(3, "lenovo", 516, 250.5, 3)
+        notStoredProduct1 = Product(0, "iphone", 64, 250.5, -1)
+        notStoredProduct2 = Product(1, "iphone", 64, 250.5, -1)
+        storedProduct1 = Product(2, "honor", 128, 255.5, 1)
+        storedProduct2 = Product(3, "lenovo", 516, 250.5, 3)
 
-        populateProduct!!.addProduct(NotStoredProduct1!!)
-        populateProduct!!.addProduct(NotStoredProduct2!!)
-        populateProduct!!.addProduct(StoredProduct1!!)
-        populateProduct!!.addProduct(StoredProduct2!!)
+        populateProduct!!.addProduct(notStoredProduct1!!)
+        populateProduct!!.addProduct(notStoredProduct2!!)
+        populateProduct!!.addProduct(storedProduct1!!)
+        populateProduct!!.addProduct(storedProduct2!!)
 
 
     }
@@ -64,10 +64,10 @@ class ProductAPITest
         populatedOrders = null
         emptyProduct = null
 
-        NotStoredProduct1 = null
-        NotStoredProduct2 = null
-        StoredProduct1 = null
-        StoredProduct2 = null
+        notStoredProduct1 = null
+        notStoredProduct2 = null
+        storedProduct1 = null
+        storedProduct2 = null
 
     }
 
@@ -234,12 +234,12 @@ class ProductAPITest
         fun `is return false when u  update  product with wrong id`()
         {
             val result1 = populateProduct!!.showByCriteria("id", 4)
-            assertTrue(result1.contains("no product whith 4 element in id"))
+            assertTrue(result1.contains("no product with 4 element in id"))
             assertFalse(populateProduct!!.updateProduct(4, "poko", 128, 233.6))
             populateProduct!!.updateProduct(4, "poko", 128, 233.6)
             val result2 = populateProduct!!.showByCriteria("id", 4)
 
-            assertTrue(result2.contains("no product whith 4 element in id"))
+            assertTrue(result2.contains("no product with 4 element in id"))
 
 
         }
@@ -500,4 +500,276 @@ class ProductAPITest
         }
 
     }
+
+
+
+    @Nested
+    inner class delateChosedProductsFromOrdeTest{
+        @Test
+        fun `check is delateChosedProductsFromOrder work`(){
+
+            assertTrue(populateProduct!!.checkIsOrderHasProducts(3))
+            val result =populateProduct!!.showByCriteria("id", 3)
+            assertTrue(result.contains("orderID=3"))
+            assertTrue(result.contains("lenovo"))
+            assertTrue(result.contains("250.5"))
+            assertTrue(populateProduct!!.delateChosedProductsFromOrder(3,3))
+            assertFalse(populateProduct!!.checkIsOrderHasProducts(3))
+            val result2 =populateProduct!!.showByCriteria("id", 3)
+            assertTrue(result2.contains("orderID=-1"))
+        }
+        @Test
+        fun `check is delateChosedProductsFromOrder give false if order no have product `(){
+
+            assertFalse(emptyProduct!!.checkIsOrderHasProducts(0))
+            val result =populateProduct!!.showByCriteria("id", 3)
+            assertTrue(result.contains("orderID=3"))
+            assertTrue(result.contains("lenovo"))
+            assertTrue(result.contains("250.5"))
+            assertFalse(populateProduct!!.delateChosedProductsFromOrder(0,3))
+            assertFalse(populateProduct!!.checkIsOrderHasProducts(0))
+            val result2 =populateProduct!!.showByCriteria("id", 3)
+            assertTrue(result2.contains("orderID=3"))
+        }
+    }
+    @Nested
+    inner class sortProductByCategoryTest{
+        @Test
+        fun `check is sortProductByCategory work`(){
+            val result =populateProduct!!.showProduct()
+            populateProduct!!.sortProductByCategory("id")
+            val result2 = populateProduct!!.showProduct()
+            assertEquals(result,result2)
+            populateProduct!!.sortProductByCategory("name")
+           val result3 = populateProduct!!.showProduct()
+            assertNotEquals(result,result3)
+            populateProduct!!.sortProductByCategory("memory")
+            val  result4 =populateProduct!!.showProduct()
+            assertEquals(result4,result)
+            populateProduct!!.sortProductByCategory("price")
+            val result5 =populateProduct!!.showProduct()
+            assertNotEquals(result5,result)
+            populateProduct!!.sortProductByCategory("zxcz")
+            val result6 =populateProduct!!.showProduct()
+            assertEquals(result6,result)
+
+        }
+    }
+
+
+    @Nested
+    inner class SerchByCriteriaTest
+    {
+        @Test
+        fun `check is run SerchByCriteria for empty list`()
+        {
+            assertEquals(0, emptyProduct!!.numberOfProduct())
+            val result = emptyProduct!!.SerchByCriteria("id", 1)
+            assertTrue(result.isEmpty())
+        }
+
+        @Test
+        fun `check is run SearchByCriteria for  populatedProduct work correct`()
+        {
+
+            val result1 = populateProduct!!.SerchByCriteria("id", 0)
+            assertTrue(result1.isNotEmpty())
+            val result12 = populateProduct!!.showByCriteria("id", 0)
+            assertTrue(result12.contains("productID=0"))
+            val result2 = populateProduct!!.SerchByCriteria("name", "iphone")
+            assertTrue(result2.isNotEmpty())
+            val result22 = populateProduct!!.showByCriteria("name", "iphone")
+            assertTrue(result22.contains("productName=iphone"))
+            val result3 = populateProduct!!.SerchByCriteria("memory", 64)
+            assertTrue(result3.isNotEmpty())
+            val result33 = populateProduct!!.showByCriteria("memory", 64)
+            assertTrue(result33.contains("memorySize=64"))
+            val result4 = populateProduct!!.SerchByCriteria("price", 255.5)
+            assertTrue(result4.isNotEmpty())
+            val result44 = populateProduct!!.showByCriteria("price", 255.5)
+            assertTrue(result44.contains("price=255.5"))
+            assertTrue(result44.contains("productID=2"))
+
+
+        }
+        @Test
+        fun `check is run SearchByCriteria   with wrong searchElement give empty`(){
+            val result = populateProduct!!.SerchByCriteria("id","1")
+            assertTrue(result.isEmpty())
+            val result2 =populateProduct!!.showByCriteria("id","1")
+            assertTrue(result2.contains("no product with 1 element in id"))
+
+        }
+        @Test
+        fun `check is run SearchByCriteria   with wrong criteria give empty`(){
+            val result = populateProduct!!.SerchByCriteria("isadasd",1)
+            assertTrue(result.isEmpty())
+            val result2 =populateProduct!!.showByCriteria("isadasd",1)
+            assertTrue(result2.contains("no product with 1 element in isadasd"))
+
+        }
+    }
+
+    @Nested
+    inner class showByCriteriaTest {
+        @Test
+        fun `check is run showByCriteriaTest for empty list`(){
+            assertEquals(0,emptyProduct!!.numberOfProduct())
+            val result =emptyProduct!!.showByCriteria("id",1)
+            assertTrue(result.contains("no product with 1 element in id"))
+
+        }
+        @Test
+        fun `check is run showByCriteriaTest for  populatedProduct work correct`(){
+
+
+            val result2 = populateProduct!!.SerchByCriteria("name", "iphone")
+            assertTrue(result2.isNotEmpty())
+            val result22 = populateProduct!!.showByCriteria("name", "iphone")
+            assertTrue(result22.contains("productName=iphone"))
+
+
+        }
+        @Test
+        fun `check is run showByCriteriaTest   with wrong searchElement give empty`(){
+
+            val result2 =populateProduct!!.showByCriteria("id","1")
+            assertTrue(result2.contains("no product with 1 element in id"))
+
+        }
+        @Test
+        fun `check is run showByCriteriaTest   with wrong criteria give empty`(){
+
+            val result2 =populateProduct!!.showByCriteria("isadasd",1)
+            assertTrue(result2.contains("no product with 1 element in isadasd"))
+
+        }
+
+
+    }
+
+    @Nested
+    inner class countIsInStockByNameTest
+    {
+        @Test
+        fun `check if countIsInStockByName for empty list give 0`()
+        {
+            assertEquals(0,emptyProduct!!.numberOfProduct())
+            assertEquals(0,emptyProduct!!.countIsInStockByName("iphone"))
+            val result1 = emptyProduct!!.SerchByCriteria("name", "iphone")
+            assertTrue(result1.isEmpty())
+        }
+
+        @Test
+        fun `check if countIsInStockByName for populateProduct  give count of not orderd product by name iphone`()
+        {
+            assertEquals(2,populateProduct!!.numberOfNotOrderedProduct())
+            assertEquals(2,populateProduct!!.countIsInStockByName("iphone"))
+            val result1 = populateProduct!!.SerchByCriteria("name", "iphone")
+            assertTrue(result1.isNotEmpty())
+            val result2 = populateProduct!!.showByCriteria("name", "iphone")
+            assertTrue(result2.contains("productName=iphone"))
+            assertTrue(result2.contains("orderID=-1"))
+
+        }
+        @Test
+        fun `check if countIsInStockByName for populateProduct  give count=0 of not orderd product by name honor`()
+        {
+
+            assertEquals(0,populateProduct!!.countIsInStockByName("honor"))
+            val result1 = populateProduct!!.SerchByCriteria("name", "honor")
+            assertTrue(result1.isNotEmpty())
+            val result2 = populateProduct!!.showByCriteria("name", "honor")
+            assertTrue(result2.contains("productName=honor"))
+            assertTrue(result2.contains("orderID=1"))
+
+        }
+    }
+
+    @Nested
+    inner class checkIsStockTest
+    {
+        @Test
+        fun `check if checkIsStockTest for empty list give No product in stock with name SeacrchName`()
+        {
+            assertEquals(0,emptyProduct!!.numberOfProduct())
+            val result = emptyProduct!!.checkIsStock("iphone")
+            assertTrue(result.contains("No product in stock with name iphone"))
+        }
+        @Test
+        fun `check if checkIsStockTest for populateProduct list gave list of product in stock by name`()
+        {
+            assertEquals(2,populateProduct!!.numberOfNotOrderedProduct())
+            assertEquals(2,populateProduct!!.countIsInStockByName("iphone"))
+            val result1 = populateProduct!!.SerchByCriteria("name", "iphone")
+            assertTrue(result1.isNotEmpty())
+            val result2 = populateProduct!!.showByCriteria("name", "iphone")
+            assertTrue(result2.contains("productName=iphone"))
+            assertTrue(result2.contains("orderID=-1"))
+            val result3 = populateProduct!!.checkIsStock("iphone")
+            assertTrue(result3.contains("productName=iphone"))
+            assertTrue(result3.contains("orderID=-1"))
+        }
+
+
+        @Test
+        fun `check if countIsInStockByName for populateProduct  give No product in stock with name SeacrchName  by name honor`()
+        {
+
+            assertEquals(0,populateProduct!!.countIsInStockByName("honor"))
+            val result1 = populateProduct!!.SerchByCriteria("name", "honor")
+            assertTrue(result1.isNotEmpty())
+            val result2 = populateProduct!!.showByCriteria("name", "honor")
+            assertTrue(result2.contains("productName=honor"))
+            assertTrue(result2.contains("orderID=1"))
+            val result = populateProduct!!.checkIsStock("honor")
+            assertTrue(result.contains("No product in stock with name honor"))
+
+        }
+
+
+
+        @Nested
+        inner class PersistenceTests
+        {
+
+            @Test
+            fun `saving and loading an empty collection in XML doesn't crash app`()
+            {
+                // Saving an empty notes.XML file.
+                val storingProduct = ProductAPI(XMLSerializer(File("products.xml")))
+                storingProduct.store()
+
+                //Loading the empty notes.xml file into a new object
+                val loadedProduct = ProductAPI(XMLSerializer(File("products.xml")))
+                loadedProduct.load()
+
+                //Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
+                assertEquals(0, storingProduct.numberOfProduct())
+                assertEquals(0, loadedProduct.numberOfProduct())
+                assertEquals(storingProduct.numberOfProduct(), loadedProduct.numberOfProduct())
+            }
+        }
+        @Test
+        fun `saving and loading an loaded collection in XML doesn't loose data`() {
+            // Storing 3 notes to the notes.XML file.
+            val storingProduct = ProductAPI(XMLSerializer(File("products.xml")))
+            storingProduct.addProduct(notStoredProduct1!!)
+            storingProduct.addProduct(storedProduct1!!)
+            storingProduct.store()
+
+            //Loading notes.xml into a different collection
+            val loadedProduct = ProductAPI(XMLSerializer(File("products.xml")))
+            loadedProduct.load()
+
+            //Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
+            assertEquals(2, storingProduct.numberOfProduct())
+            assertEquals(2, loadedProduct.numberOfProduct())
+            assertEquals(storingProduct.numberOfProduct(), loadedProduct.numberOfProduct())
+            assertEquals(storingProduct.SerchByCriteria("id",0), loadedProduct.SerchByCriteria("id",0))
+            assertEquals(storingProduct.SerchByCriteria("id",2), loadedProduct.SerchByCriteria("id",2))
+        }
+    }
+
+
 }

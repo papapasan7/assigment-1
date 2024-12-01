@@ -171,7 +171,7 @@ class OrderAPI (private val productAPI: ProductAPI,serializerType: Serializer) {
 
             if (SerchByCriteria(criterion,SeacrchElement).isEmpty())
 
-                "no order whith $SeacrchElement element in $criterion"
+                "no order with $SeacrchElement element in $criterion"
 
             else{
                 formatListString(SerchByCriteria(criterion,SeacrchElement))
