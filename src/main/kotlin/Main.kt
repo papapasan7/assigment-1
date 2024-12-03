@@ -248,7 +248,7 @@ fun UpdProdct(){
 
  fun listProductByCriteria(){
      if (ProductAPI.checkOfNumberAllProduct()){
-         val category = readValidCategoryForProductSearch("Enter (String input) product criterion for search from list ${criterionOfProductSearch}: ")
+         val category = readValidCriterionForProductSearch("Enter (String input) product criterion for search from list ${criterionOfProductSearch}: ")
          var serchElement:Any = 0
          when(category)
          {
@@ -442,7 +442,7 @@ fun sortOrder(){
 
 fun listOrderByCriteria(){
     if (OrderAPI.checkAreNumberOrder()){
-        val category = readValidCategoryForOrderSearch("Enter (String input) order criterion for search from list ${criterionOfOrder}: ")
+        val category = readValidCriterionForOrderSearch("Enter (String input) order criterion for search from list ${criterionOfOrder}: ")
         var serchElement:Any = 0
         when(category)
         {

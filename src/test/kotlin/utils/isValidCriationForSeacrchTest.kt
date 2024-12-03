@@ -16,17 +16,17 @@ class criterionOfProductSearchTest {
     }
 
     @Test
-    fun isValidCategoryTrueWhenCategoryExists(){
-        assertTrue(utils.isValidCategoryForProductSearch("id"))
-        assertTrue(utils.isValidCategoryForProductSearch("price"))
-        assertTrue(utils.isValidCategoryForProductSearch("orderid"))
-        assertTrue(utils.isValidCategoryForProductSearch("ID"))
+    fun isValidCriterionForProductSearchTrueWhenCategoryExists(){
+        assertTrue(utils.isValidCriterionForProductSearch("id"))
+        assertTrue(utils.isValidCriterionForProductSearch("price"))
+        assertTrue(utils.isValidCriterionForProductSearch("orderid"))
+        assertTrue(utils.isValidCriterionForProductSearch("ID"))
     }
 
     @Test
-    fun isValidCategoryFalseWhenCategoryDoesNotExist(){
-        assertFalse(isValidCategoryForProductSearch("i"))
-        assertFalse(isValidCategoryForProductSearch("oed"))
-        assertFalse(isValidCategoryForProductSearch(""))
+    fun isValidCriterionForProductSearchForProductSearchFalseWhenCategoryDoesNotExist(){
+        assertFalse(isValidCriterionForProductSearch("i"))
+        assertFalse(isValidCriterionForProductSearch("oed"))
+        assertFalse(isValidCriterionForProductSearch(""))
     }
 }
