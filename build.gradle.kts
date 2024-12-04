@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+    jacoco
+    application
 }
 
 group = "ie.setu"
@@ -16,6 +18,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+
+    finalizedBy(tasks.jacocoTestReport)
 }
 kotlin {
     jvmToolchain(16)

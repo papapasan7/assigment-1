@@ -28,5 +28,6 @@ class criterionOfProductSearchTest {
         assertFalse(isValidCriterionForProductSearch("i"))
         assertFalse(isValidCriterionForProductSearch("oed"))
         assertFalse(isValidCriterionForProductSearch(""))
+        assertFalse(isValidCriterionForProductSearch(" "))
     }
 }
