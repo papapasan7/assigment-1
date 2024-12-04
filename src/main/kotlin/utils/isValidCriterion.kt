@@ -4,10 +4,10 @@ val criterionOfProduct = setOf("memory", "name","id","price")
 val criterionOfOrder = setOf( "name","id")
 
 // You can also refactor this function to use Lambdas
-fun isValidCategoryForProduct(categoryToCheck: String?): Boolean =
+fun isValidCriterionForProduct(categoryToCheck: String?): Boolean =
 
-        criterionOfProduct.any { categoryToCheck?.contains(it) ?: false }
+        criterionOfProduct.any { categoryToCheck?.lowercase()?.contains(it) ?: false }
 
-fun isValidCategoryForOrder(categoryToCheck: String?): Boolean =
+fun isValidCriterionForOrder(categoryToCheck: String?): Boolean =
 
-        criterionOfOrder.any { categoryToCheck?.contains(it) ?: false }
+        criterionOfOrder.any { categoryToCheck?.lowercase()?.contains(it) ?: false }

@@ -26,7 +26,7 @@ fun readValidPrice(prompt: String?): Double {
 fun readValidCategoryForProduct(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCategoryForProduct(input))
+        if (isValidCriterionForProduct(input))
             return input
         else {
             print("Invalid criterion $input.  Please try again: ")
@@ -38,7 +38,7 @@ fun readValidCategoryForProduct(prompt: String?): String {
 fun readValidCategoryForOrder(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCategoryForOrder(input))
+        if (isValidCriterionForOrder(input))
             return input
         else {
             print("Invalid criterion $input.  Please try again: ")
@@ -47,10 +47,10 @@ fun readValidCategoryForOrder(prompt: String?): String {
     } while (true)
 }
 
-fun readValidCategoryForProductSearch(prompt: String?): String {
+fun readValidCriterionForProductSearch(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCategoryForProductSearch(input))
+        if (isValidCriterionForProductSearch(input))
             return input
         else {
             print("Invalid criterion $input.  Please try again: ")
@@ -60,10 +60,10 @@ fun readValidCategoryForProductSearch(prompt: String?): String {
 }
 
 
-fun readValidCategoryForOrderSearch(prompt: String?): String {
+fun readValidCriterionForOrderSearch(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCategoryForOrder(input))
+        if (isValidCriterionForOrder(input))
             return input
         else {
             print("Invalid criterion $input.  Please try again: ")
