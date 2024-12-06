@@ -1,16 +1,28 @@
-import ie.setu.controllers.OrderAPI
-import ie.setu.controllers.ProductAPI
-import ie.setu.models.Order
-import ie.setu.models.Product
-import java.io.File
-import java.lang.System.exit
-import persistence.XMLSerializer
-import utils.*
+@file:Suppress("KDocUnresolvedReference")
 
-import java.lang.System.exit
+import controllers.OrderAPI
+import controllers.ProductAPI
+import ie.setu.models.Product
+import models.Order
+import persistence.XMLSerializer
+import utils.categories
+import utils.criterionOfOrder
+import utils.criterionOfProduct
+import utils.criterionOfProductSearch
+import utils.readDouble
+import utils.readInt
+import utils.readString
+import utils.readValidCategoryForOrder
+import utils.readValidCategoryForProduct
+import utils.readValidCriterionForOrderSearch
+import utils.readValidCriterionForProductSearch
+import utils.readValidPrice
+import utils.readValidSize
+import java.io.File
+import kotlin.system.exitProcess
 
 private val ProductAPI = ProductAPI(XMLSerializer(File("product.xml")))
-private val OrderAPI = OrderAPI(ProductAPI,XMLSerializer(File("orders.xml")))
+private val OrderAPI = OrderAPI(ProductAPI, XMLSerializer(File("orders.xml")))
 
 /**
  * Entry point of the Storage Control Application.
@@ -19,6 +31,7 @@ private val OrderAPI = OrderAPI(ProductAPI,XMLSerializer(File("orders.xml")))
 fun main() {
     runMenu()
 }
+
 /**
  * Displays the main menu of the application and returns the user's choice.
  *
@@ -68,45 +81,44 @@ fun mainMenu(): Int {
     )
     return readInt("\nInput your choice: ")
 }
+
 /**
  * Runs the application menu loop.
  * Executes actions based on user input.
  */
 fun runMenu() {
     do {
-        val option = mainMenu()
-        when (option) {
+        when (val option = mainMenu()) {
             1 -> addProduct()
             2 -> listProduct()
             3 -> deleteProduct()
-            4 -> UpdProdct()
-            5 ->sortProduct()
-            6 ->listProductByCriteria()
-            7 ->stockChek()
+            4 -> updProduct()
+            5 -> sortProduct()
+            6 -> listProductByCriteria()
+            7 -> stockCheck()
 
             8 -> addOrder()
             9 -> listOrders()
-            10-> deleteOrder()
-            11 -> UpdOrder()
-            12 ->sortOrder()
-            13 ->changeActiveStatus()
-            14->listOrderByCriteria()
+            10 -> deleteOrder()
+            11 -> updOrder()
+            12 -> sortOrder()
+            13 -> changeActiveStatus()
+            14 -> listOrderByCriteria()
 
-            15 ->addProductToOrder()
-            16 ->listProductByOrder()
-            17 ->delateProductFromOrder()
-            18 ->showProductPriceSumByOrder()
-            19 ->loadOrder()
-            20 ->loadProduct()
-            21 ->saveOrder()
-            22 ->saveProduct()
+            15 -> addProductToOrder()
+            16 -> listProductByOrder()
+            17 -> deleteProductFromOrder()
+            18 -> showProductPriceSumByOrder()
+            19 -> loadOrder()
+            20 -> loadProduct()
+            21 -> saveOrder()
+            22 -> saveProduct()
             0 -> exitApp()
             else -> println("Invalid option entered: $option")
         }
     } while (true)
-
-
 }
+
 /**
  * Saves all orders to a file.
  *
@@ -120,6 +132,7 @@ fun saveOrder() {
         System.err.println("Error writing to file: $e")
     }
 }
+
 /**
  * Loads all orders from a file.
  *
@@ -133,6 +146,7 @@ fun loadOrder() {
         System.err.println("Error reading from file: $e")
     }
 }
+
 /**
  * Saves all products to a file.
  *
@@ -146,6 +160,7 @@ fun saveProduct() {
         System.err.println("Error writing to file: $e")
     }
 }
+
 /**
  * Loads all products from a file.
  *
@@ -170,32 +185,26 @@ fun loadProduct() {
  * @param price The price of the product.
  * @see ProductAPI.addProduct
  */
-fun addProduct(){
-
+fun addProduct() {
     val count = readInt("How many product do u need to add: ")
-
 
     if (count <= 0) {
         println("Number of products must be greater than 0.")
         return
-    }
-    else {
-
+    } else {
         val productName = readString("Enter product name: ")
-        val memorySize = readValidSize("Memory size in (gb) from select choose ${categories}: ")
+        val memorySize = readValidSize("Memory size in (gb) from select choose $categories: ")
         val price = readValidPrice("Enter price: ")
-            repeat(count)  {
-
-                val isAdd = ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
-                if (isAdd) {
-                    println("Product added successfully!")
-                } else {
-                    println("Product add failed!")
-                }
+        repeat(count) {
+            val isAdd = ProductAPI.addProduct(Product(0, productName, memorySize, price, -1))
+            if (isAdd) {
+                println("Product added successfully!")
+            } else {
+                println("Product add failed!")
             }
+        }
     }
 }
-
 
 /**
  * Lists products based on the user's selection.
@@ -215,39 +224,43 @@ fun listProduct() {
                   >║    2) View NOT stored products      ║
                   >║    3) View  Ordered products        ║
                   >╚═════════════════════════════════════╝
-         >Choose what list do u want: """.trimMargin(">"))
+         >Choose what list do u want: """.trimMargin(">")
+        )
 
         when (option) {
-            1 -> listAllProduct();
-            2 -> listNotOrderedProduct();
-            3 -> listOrderedProduct();
-            else -> println("Invalid option entered: $option");
+            1 -> listAllProduct()
+            2 -> listNotOrderedProduct()
+            3 -> listOrderedProduct()
+            else -> println("Invalid option entered: $option")
         }
     }
 }
+
 /**
  * Displays all products in the system.
  *
  * @see ProductAPI.showProduct
  */
-fun listAllProduct(){
-    println("List of all products: \n"+ProductAPI.showProduct())
+fun listAllProduct() {
+    println("List of all products: \n" + ProductAPI.showProduct())
 }
+
 /**
  * Displays all products that are not part of any order.
  *
- * @see ProductAPI.showNotOrderdProduct
+ * @see ProductAPI.showNotOrderedProduct
  */
-fun listNotOrderedProduct(){
-    println("List of not ordered products: \n"+ProductAPI.showNotOrderdProduct())
+fun listNotOrderedProduct() {
+    println("List of not ordered products: \n" + ProductAPI.showNotOrderedProduct())
 }
+
 /**
  * Displays all products that are part of an order.
  *
- * @see ProductAPI.showOrderdProduct
+ * @see ProductAPI.showOrderedProduct
  */
-fun listOrderedProduct(){
-    println("List of ordered products: \n"+ProductAPI.showOrderdProduct())
+fun listOrderedProduct() {
+    println("List of ordered products: \n" + ProductAPI.showOrderedProduct())
 }
 
 /**
@@ -255,64 +268,54 @@ fun listOrderedProduct(){
  * Validates the ID before attempting deletion.
  *
  * @throws IllegalArgumentException If the provided product ID is invalid.
- * @param seacrhID The ID of the product to delete.
- * @see ProductAPI.delatePtoduct
+ * @param searchID The ID of the product to delete.
+ * @see ProductAPI.deleteProduct
  * @see listAllProduct
  */
 
-fun deleteProduct()
-{
-    if (ProductAPI.checkOfNumberAllProduct())
-    {
+fun deleteProduct() {
+    if (ProductAPI.checkOfNumberAllProduct()) {
         listAllProduct()
-        val seacrhID = readInt("Enter product ID to delete: ")
-        if (ProductAPI.checkIsValidProductID(seacrhID))
-        {
-            if (ProductAPI.delatePtoduct(seacrhID))
-            {
+        val searchProductID = readInt("Enter product ID to delete: ")
+        if (ProductAPI.checkIsValidProductID(searchProductID)) {
+            if (ProductAPI.deleteProduct(searchProductID)) {
                 println("Product deleted successfully.")
-            }
-            else{
+            } else {
                 println("Product deleted failed.")
             }
         }
-
     }
-
 }
 
 /**
  * Updates a product's details based on its ID.
  * Prompts the user for updated product details.
  *
- * @param seacrhID The ID of the product to update.
+ * @param searchID The ID of the product to update.
  * @param productName The new name of the product.
  * @param memorySize The updated memory size of the product in GB.
  * @param price The updated price of the product.
  * @see ProductAPI.updateProduct
  * @see listAllProduct
  */
-fun UpdProdct(){
-   if (ProductAPI.checkOfNumberAllProduct()) {
-
-       listAllProduct()
-       val seacrhID = readInt("Enter product ID that u want to update: ")
-       if (ProductAPI.checkIsValidProductID(seacrhID)) {
-
-           val productName = readString("Enter product name: ")
-           val memorySize = readValidSize("Memory size in (gb) from select choose ${categories}: ")
-           val price = readValidPrice("Enter price: ")
-           val isAdd = ProductAPI.updateProduct(seacrhID, productName, memorySize, price)
-           if (isAdd) {
-               println("Product update successfully!")
-           } else {
-               println("Product update failed!")
-           }
-       }
-
-   }
-
+fun updProduct() {
+    if (ProductAPI.checkOfNumberAllProduct()) {
+        listAllProduct()
+        val searchProductID = readInt("Enter product ID that u want to update: ")
+        if (ProductAPI.checkIsValidProductID(searchProductID)) {
+            val productName = readString("Enter product name: ")
+            val memorySize = readValidSize("Memory size in (gb) from select choose $categories: ")
+            val price = readValidPrice("Enter price: ")
+            val isAdd = ProductAPI.updateProduct(searchProductID, productName, memorySize, price)
+            if (isAdd) {
+                println("Product update successfully!")
+            } else {
+                println("Product update failed!")
+            }
+        }
+    }
 }
+
 /**
  * Sorts products based on a user-selected criterion.
  * Available criteria include "id", "name", "memory", and "price".
@@ -322,16 +325,15 @@ fun UpdProdct(){
  * @see ProductAPI.sortProductByCategory
  * @see listAllProduct
  */
- fun sortProduct(){
-     if (ProductAPI.checkOfNumberAllProduct())
-     {
-         val category = readValidCategoryForProduct("Enter (String input) product criterion for sorting from list ${criterionOfProduct}: ")
-         ProductAPI.sortProductByCategory(category);
-         println("Soreted Product list: ")
-         listAllProduct()
-     }
+fun sortProduct() {
+    if (ProductAPI.checkOfNumberAllProduct()) {
+        val category = readValidCategoryForProduct("Enter (String input) product criterion for sorting from list $criterionOfProduct: ")
+        ProductAPI.sortProductByCategory(category)
+        println("Sorted Product list: ")
+        listAllProduct()
+    }
+}
 
- }
 /**
  * Lists products based on a specific search criterion and value.
  * Prompts the user for input and displays matching products.
@@ -341,20 +343,19 @@ fun UpdProdct(){
  * @throws IllegalArgumentException If the input criterion or value is invalid.
  * @see ProductAPI.showByCriteria
  */
- fun listProductByCriteria(){
-     if (ProductAPI.checkOfNumberAllProduct()){
-         val category = readValidCriterionForProductSearch("Enter (String input) product criterion for search from list ${criterionOfProductSearch}: ")
-         var serchElement:Any = 0
-         when(category)
-         {
-             "id","memory","orderid" -> serchElement=readInt("Input INT element to search: ")
-             "name"-> serchElement=readString("Input String element to search: ")
-             "price" ->serchElement= readDouble("Input Double element to search: ")
-         }
-         println(ProductAPI.showByCriteria(category,serchElement))
-     }
+fun listProductByCriteria() {
+    if (ProductAPI.checkOfNumberAllProduct()) {
+        val category = readValidCriterionForProductSearch("Enter (String input) product criterion for search from list $criterionOfProductSearch: ")
+        var searchElement: Any = 0
+        when (category) {
+            "id", "memory", "orderid" -> searchElement = readInt("Input INT element to search: ")
+            "name" -> searchElement = readString("Input String element to search: ")
+            "price" -> searchElement = readDouble("Input Double element to search: ")
+        }
+        println(ProductAPI.showByCriteria(category, searchElement))
+    }
+}
 
- }
 /**
  * Checks the stock of a specific product by its name.
  * Displays stock availability and details of products in stock.
@@ -363,15 +364,15 @@ fun UpdProdct(){
  * @see ProductAPI.countIsInStockByName
  * @see ProductAPI.checkIsStock
  */
-fun stockChek(){
-    if (ProductAPI.checkOfNumberNotStoredProduct()){
+fun stockCheck() {
+    if (ProductAPI.checkOfNumberNotStoredProduct()) {
         val searchProduct = readString("Enter product name for stock check: ")
-        if (ProductAPI.countIsInStockByName(searchProduct)>0)
-        {
-            println("Its ${ProductAPI.countIsInStockByName(searchProduct)} prduct with name $searchProduct in stock\n"  +
-                            "List of this product:\n "+ProductAPI.checkIsStock(searchProduct))
-        }
-        else{
+        if (ProductAPI.countIsInStockByName(searchProduct) > 0) {
+            println(
+                "Its ${ProductAPI.countIsInStockByName(searchProduct)} product with name $searchProduct in stock\n" +
+                    "List of this product:\n " + ProductAPI.checkIsStock(searchProduct)
+            )
+        } else {
             println("Product with name $searchProduct is not in stock")
         }
     }
@@ -383,18 +384,16 @@ fun stockChek(){
  * @param customerName The name of the customer placing the order.
  * @see OrderAPI.addOrder
  */
-fun addOrder(){
-
+fun addOrder() {
     val customerName = readString("Enter customer Name : ")
-    val isAdd = OrderAPI.addOrder(Order(0,customerName,true))
+    val isAdd = OrderAPI.addOrder(Order(0, customerName, true))
     if (isAdd) {
         println("Order added successfully!")
-    }
-    else
-    {
+    } else {
         println("Order add failed!")
     }
 }
+
 /**
  * Lists orders based on user selection.
  * Options include viewing all orders, active orders, or inactive orders.
@@ -413,13 +412,14 @@ fun listOrders() {
                   >║    2) View ACTIVE orders            ║
                   >║    3) View INACTIVE orders          ║
                   >╚═════════════════════════════════════╝
-         > Choose what list do u want: """.trimMargin(">"))
+         > Choose what list do u want: """.trimMargin(">")
+        )
 
         when (option) {
-            1 -> listAllOrder();
-            2 -> listActiveOrder();
-            3 ->  listInactiveOrder();
-            else -> println("Invalid option entered: $option");
+            1 -> listAllOrder()
+            2 -> listActiveOrder()
+            3 -> listInactiveOrder()
+            else -> println("Invalid option entered: $option")
         }
     }
 }
@@ -430,159 +430,135 @@ fun listOrders() {
  * @see OrderAPI.showOrder
  */
 
-fun listAllOrder(){
-    println("List of all orders: \n"+OrderAPI.showOrder())
+fun listAllOrder() {
+    println("List of all orders: \n" + OrderAPI.showOrder())
 }
+
 /**
  * Displays all active orders in the system.
  *
  * @see OrderAPI.showOrderActive
  */
-fun listActiveOrder(){
-    println("List of active orders: \n"+OrderAPI.showOrderActive())
+fun listActiveOrder() {
+    println("List of active orders: \n" + OrderAPI.showOrderActive())
 }
 
 /**
  * Displays all inactive orders in the system.
  *
- * @see OrderAPI.showOrderINactive
+ * @see OrderAPI.showOrderINative
  */
-fun listInactiveOrder(){
-    println("List of inactive orders: \n"+OrderAPI.showOrderINactive())
+fun listInactiveOrder() {
+    println("List of inactive orders: \n" + OrderAPI.showOrderInactive())
 }
+
 /**
  * Deletes an order by its ID.
  * Also updates products associated with the deleted order.
  *
- * @param seacrhID The ID of the order to delete.
+ * @param searchID The ID of the order to delete.
  * @throws IllegalArgumentException If the order ID is invalid.
- * @see OrderAPI.delateOrder
+ * @see OrderAPI.deleteOrder
  */
 fun deleteOrder() {
-
     if (OrderAPI.checkAreNumberOrder()) {
         listAllOrder()
-        val seacrhID = readInt("Enter Order ID to delete: ")
-        if(OrderAPI.checkIsOrderValidID(seacrhID))
-        {
-            if (OrderAPI.delateOrder(seacrhID))
-            {
+        val searchID = readInt("Enter Order ID to delete: ")
+        if (OrderAPI.checkIsOrderValidID(searchID)) {
+            if (OrderAPI.deleteOrder(searchID)) {
                 println("Order deleted successfully. Products associated with this order have been updated.")
-            }
-            else{
+            } else {
                 println("Order deleted failed.")
             }
         }
-
-
     }
 }
-
 
 /**
  * Updates an order's customer name by its ID.
  *
- * @param seacrhID The ID of the order to update.
+ * @param searchID The ID of the order to update.
  * @param customerName The new customer name.
  */
-fun UpdOrder(){
+fun updOrder() {
     if (OrderAPI.checkAreNumberOrder()) {
-
-
         listAllOrder()
-        val seacrhID = readInt("Enter Order ID that u want to update: ")
+        val searchID = readInt("Enter Order ID that u want to update: ")
 
-        if(OrderAPI.checkIsOrderValidID(seacrhID))
-        {
+        if (OrderAPI.checkIsOrderValidID(searchID)) {
             val customerName = readString("Enter customerName to update: ")
-            val isAdd = OrderAPI.updateOrder(seacrhID, customerName)
-            if (isAdd)
-            {
+            val isAdd = OrderAPI.updateOrder(searchID, customerName)
+            if (isAdd) {
                 println("Order updated successfully!")
-            }
-            else
-            {
+            } else {
                 println("Order updated failed!")
             }
         }
-
     }
 }
+
 /**
  * Toggles the active status of an order.
  * Prompts the user to choose between activating or deactivating an order.
  */
-    fun changeActiveStatus()
-    {
-        if (OrderAPI.checkAreNumberOrder()) {
-            val option = readInt(
-                """
+fun changeActiveStatus() {
+    if (OrderAPI.checkAreNumberOrder()) {
+        val option = readInt(
+            """
                   >╔═════════════════════════════════════╗
-                  >║    1) Change order to Incative      ║
+                  >║    1) Change order to Inactive      ║
                   >║    2) Change order to active        ║
                   >╚═════════════════════════════════════╝
-         > Choose option: """.trimMargin(">"))
+         > Choose option: """.trimMargin(">")
+        )
 
-            when (option) {
-                1 -> MakeOrderInavtive()
-                2 -> MakeOrderActive()
-                else -> println("Invalid option entered: $option");
-            }
-
+        when (option) {
+            1 -> makeOrderInactive()
+            2 -> makeOrderActive()
+            else -> println("Invalid option entered: $option")
         }
     }
+}
 
 /**
  * Marks an active order as inactive by its ID.
  *
- * @param seacrhActiveOrderID The ID of the active order to deactivate.
+ * @param searchActiveOrderID The ID of the active order to deactivate.
  */
-fun MakeOrderInavtive()
-{
-    if (OrderAPI.checkOfNumberActiveOrder())
-    {
+fun makeOrderInactive() {
+    if (OrderAPI.checkOfNumberActiveOrder()) {
         listActiveOrder()
-        val seacrhActiveOrderID = readInt("enter the order ID to make INACTIVE: ")
-        if (OrderAPI.checkIsValidActiveID(seacrhActiveOrderID))
-        {
-        if (OrderAPI.swithcActiveStatus(seacrhActiveOrderID))
-        {
-            println("Changed to INACTIVE successfully")
+        val searchActiveOrderID = readInt("enter the order ID to make INACTIVE: ")
+        if (OrderAPI.checkIsValidActiveID(searchActiveOrderID)) {
+            if (OrderAPI.switchActiveStatus(searchActiveOrderID)) {
+                println("Changed to INACTIVE successfully")
+            } else {
+                println("Changed to INACTIVE failed!")
+            }
         }
-        else
-        {
-            println("Changed to INACTIVE failed!")
-        }
-     }
     }
 }
+
 /**
  * Marks an inactive order as active by its ID.
  *
- * @param seacrhInactiveOrderID The ID of the inactive order to activate.
+ * @param searchInactiveOrderID The ID of the inactive order to activate.
  */
-fun MakeOrderActive()
-{
-    if (OrderAPI.checkOfNumberInactiveOrder())
-    {
-
+fun makeOrderActive() {
+    if (OrderAPI.checkOfNumberInactiveOrder()) {
         listInactiveOrder()
-        val seacrhActiveOrderID = readInt("enter the order ID to make ACTIVE: ")
+        val searchActiveOrderID = readInt("enter the order ID to make ACTIVE: ")
 
-        if (OrderAPI.checkIsValidInactiveID(seacrhActiveOrderID))
-        {
-
-        if (OrderAPI.swithcActiveStatus(seacrhActiveOrderID))
-        {
-            println("Changed to ACTIVE successfully")
-        }
-        else
-        {
-            println("Changed to ACTIVE failed!")
-        }
+        if (OrderAPI.checkIsValidInactiveID(searchActiveOrderID)) {
+            if (OrderAPI.switchActiveStatus(searchActiveOrderID)) {
+                println("Changed to ACTIVE successfully")
+            } else {
+                println("Changed to ACTIVE failed!")
+            }
         }
     }
 }
+
 /**
  * Sorts orders based on a user-specified criterion.
  * Prompts the user for the sorting category and displays the sorted list.
@@ -590,16 +566,15 @@ fun MakeOrderActive()
  * @param category The criterion for sorting the orders.
  * @see OrderAPI.sortOrderByCategory
  */
-fun sortOrder(){
-    if (OrderAPI.checkAreNumberOrder())
-    {
-        val category = readValidCategoryForOrder("Enter (String input) order criterion for sorting from list ${criterionOfOrder}: ")
-        OrderAPI.sortOrderByCategory(category);
-        println("Soreted order list: ")
+fun sortOrder() {
+    if (OrderAPI.checkAreNumberOrder()) {
+        val category = readValidCategoryForOrder("Enter (String input) order criterion for sorting from list $criterionOfOrder: ")
+        OrderAPI.sortOrderByCategory(category)
+        println("Sorted order list: ")
         listAllOrder()
     }
-
 }
+
 /**
  * Lists orders based on a specific search criterion and value.
  * Prompts the user for input and displays matching orders.
@@ -608,18 +583,16 @@ fun sortOrder(){
  * @param searchElement The value to match against the criterion.
  * @see OrderAPI.showByCriteria
  */
-fun listOrderByCriteria(){
-    if (OrderAPI.checkAreNumberOrder()){
-        val category = readValidCriterionForOrderSearch("Enter (String input) order criterion for search from list ${criterionOfOrder}: ")
-        var serchElement:Any = 0
-        when(category)
-        {
-            "id" -> serchElement=readInt("Input INT element to search: ")
-            "name"-> serchElement=readString("Input String element to search: ")
+fun listOrderByCriteria() {
+    if (OrderAPI.checkAreNumberOrder()) {
+        val category = readValidCriterionForOrderSearch("Enter (String input) order criterion for search from list $criterionOfOrder: ")
+        var searchElement: Any = 0
+        when (category) {
+            "id" -> searchElement = readInt("Input INT element to search: ")
+            "name" -> searchElement = readString("Input String element to search: ")
         }
-        println(OrderAPI.showByCriteria(category,serchElement))
+        println(OrderAPI.showByCriteria(category, searchElement))
     }
-
 }
 
 /**
@@ -631,36 +604,26 @@ fun listOrderByCriteria(){
  * @see ProductAPI.addProductToOrder
  */
 
-fun addProductToOrder()
-{
-    if (OrderAPI.checkOfNumberActiveOrder() && ProductAPI.checkOfNumberNotStoredProduct())
-    {
-
-
+fun addProductToOrder() {
+    if (OrderAPI.checkOfNumberActiveOrder() && ProductAPI.checkOfNumberNotStoredProduct()) {
         listNotOrderedProduct()
-        val seacrhProductID = readInt("Enter the product ID you want to add to your order: ")
+        val searchProductID = readInt("Enter the product ID you want to add to your order: ")
 
-        if (ProductAPI.checkIsValidNotStoredProductID(seacrhProductID))
-        {
-
+        if (ProductAPI.checkIsValidNotStoredProductID(searchProductID)) {
             listActiveOrder()
-            val seacrhOrderID = readInt("enter the order ID in which you want to place the product: ")
+            val searchOrderID = readInt("enter the order ID in which you want to place the product: ")
 
-            if (OrderAPI.isValidActiveID(seacrhOrderID))
-            {
-
-                if (ProductAPI.addProductToOrder(seacrhProductID, seacrhOrderID))
-                {
+            if (OrderAPI.isValidActiveID(searchOrderID)) {
+                if (ProductAPI.addProductToOrder(searchProductID, searchOrderID)) {
                     println("Product added to order  successfully!")
-                }
-                else
-                {
+                } else {
                     println("Product add to order failed!")
                 }
             }
         }
     }
 }
+
 /**
  * Lists products associated with a specific order.
  * Prompts the user for the order ID and displays its products.
@@ -668,18 +631,16 @@ fun addProductToOrder()
  * @param searchOrderID The ID of the order to display products for.
  * @see ProductAPI.showProductByOrder
  */
-fun listProductByOrder()
-{
+fun listProductByOrder() {
     if (OrderAPI.checkAreNumberOrder()) {
-            listAllOrder()
-            val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
-            if (OrderAPI.checkIsOrderValidID(seacrhOrderID))
-            {
-
-                println("Product by order with id $seacrhOrderID \n +${ProductAPI.showProductByOrder(seacrhOrderID)}")
-            }
+        listAllOrder()
+        val searchOrderID = readInt("enter the order ID in which you want to check product: ")
+        if (OrderAPI.checkIsOrderValidID(searchOrderID)) {
+            println("Product by order with id $searchOrderID \n +${ProductAPI.showProductByOrder(searchOrderID)}")
         }
+    }
 }
+
 /**
  * Displays the total price of products in a specific order.
  * Prompts the user for the order ID and calculates the total price.
@@ -687,20 +648,15 @@ fun listProductByOrder()
  * @param searchOrderID The ID of the order to calculate the product prices for.
  * @see ProductAPI.countProductSumPriceInOrder
  */
-fun showProductPriceSumByOrder(){
-    if (OrderAPI.checkAreNumberOrder()&& ProductAPI.checkOfNumberStoredProduct())
-    {
+fun showProductPriceSumByOrder() {
+    if (OrderAPI.checkAreNumberOrder() && ProductAPI.checkOfNumberStoredProduct()) {
         listAllOrder()
-        val seacrhOrderID = readInt("enter the order ID in which you want to check product: ")
-        if (OrderAPI.checkIsOrderValidID(seacrhOrderID))
-        {
-            if (ProductAPI.checkIsOrderHasProducts(seacrhOrderID))
-            {
-                println(ProductAPI.countProductSumPriceInOrder(seacrhOrderID))
-
+        val searchOrderID = readInt("enter the order ID in which you want to check product: ")
+        if (OrderAPI.checkIsOrderValidID(searchOrderID)) {
+            if (ProductAPI.checkIsOrderHasProducts(searchOrderID)) {
+                println(ProductAPI.countProductSumPriceInOrder(searchOrderID))
             }
         }
-
     }
 }
 
@@ -710,44 +666,32 @@ fun showProductPriceSumByOrder(){
  *
  * @param searchOrderID The ID of the active order.
  * @param searchProductID The ID of the product to delete.
- * @see ProductAPI.delateChosedProductsFromOrder
+ * @see ProductAPI.deleteChasedProductsFromOrder
  */
 
-fun delateProductFromOrder()
-{
-    if (OrderAPI.checkOfNumberActiveOrder()&& ProductAPI.checkOfNumberStoredProduct())
-    {
-
+fun deleteProductFromOrder() {
+    if (OrderAPI.checkOfNumberActiveOrder() && ProductAPI.checkOfNumberStoredProduct()) {
         listActiveOrder()
-        val seacrhOrderID = readInt("enter the order ID in which you want to delete the product: ")
+        val searchOrderID = readInt("enter the order ID in which you want to delete the product: ")
 
-        if (OrderAPI.checkIsValidActiveID(seacrhOrderID))
-        {
-            if (ProductAPI.checkIsOrderHasProducts(seacrhOrderID))
-            {
+        if (OrderAPI.checkIsValidActiveID(searchOrderID)) {
+            if (ProductAPI.checkIsOrderHasProducts(searchOrderID)) {
+                println("Product by order with id $searchOrderID \n +${ProductAPI.showProductByOrder(searchOrderID)}")
 
-                println("Product by order with id $seacrhOrderID \n +${ProductAPI.showProductByOrder(seacrhOrderID)}")
+                val searchProductID = readInt("Enter the product id you want to delete from your order: ")
 
-                val seacrhProductID = readInt("Enter the product id you want to delete from your order: ")
-
-                if (ProductAPI.checkIsValidProductID(seacrhProductID))
-                {
-
-                    if (ProductAPI.delateChosedProductsFromOrder(seacrhOrderID, seacrhProductID))
-                    {
+                if (ProductAPI.checkIsValidProductID(searchProductID)) {
+                    if (ProductAPI.deleteChosenProductsFromOrder(searchOrderID, searchProductID)) {
                         println("Product delete successfully!")
-                    }
-                    else
-                    {
+                    } else {
                         println("Product delete field")
                     }
                 }
             }
         }
     }
-
 }
 fun exitApp() {
     println("Exiting..bye")
-    exit(0)
+    exitProcess(0)
 }

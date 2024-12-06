@@ -1,4 +1,4 @@
-package ie.setu.models
+package models
 /**
  * Represents an order in the system.
  *
@@ -9,6 +9,7 @@ package ie.setu.models
  * @constructor Creates an instance of an order with the specified details.
  */
 data class Order(
-    var orderID:Int ,
+    var orderID: Int,
     var customerName: String,
-    var isActive: Boolean, )
+    var isActive: Boolean
+)

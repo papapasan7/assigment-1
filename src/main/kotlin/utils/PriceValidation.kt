@@ -1,8 +1,5 @@
 package utils
 
-
-
-
 /**
  * Validates whether a given price is valid.
  *
@@ -15,4 +12,4 @@ package utils
  */
 fun isValidPrice(categoryToCheck: Double?): Boolean =
 
-        categoryToCheck!=null && categoryToCheck > 0
+    categoryToCheck != null && categoryToCheck > 0

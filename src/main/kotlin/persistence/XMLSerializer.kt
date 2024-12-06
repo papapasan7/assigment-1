@@ -1,15 +1,14 @@
 package persistence
 
-
-import java.io.File
-import kotlin.Throws
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.DomDriver
-import ie.setu.models.Order
 import ie.setu.models.Product
+import models.Order
+import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.lang.Exception
+import kotlin.Throws
 /**
  * A serializer implementation for reading and writing objects in XML format.
  *
@@ -33,6 +32,7 @@ class XMLSerializer(private val file: File) : Serializer {
         inputStream.close()
         return obj
     }
+
     /**
      * Writes objects to the specified XML file.
      * Serializes the provided object into XML format and writes it to the file.

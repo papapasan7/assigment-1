@@ -1,21 +1,16 @@
 package utils
-
-
-
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
-
 import org.junit.jupiter.api.Test
 
-class isValidCategoryTest {
+class IsValidCriterionTest {
 
     @Nested
-    inner class isValidCriterioyForProductTest
-    {
+    inner class IsValidCriterionTest {
         @Test
-        fun isValidCriterionForProductReturnsFullCriterionSet()
-        {
+        fun isValidCriterionForProductReturnsFullCriterionSet() {
             assertEquals(4, criterionOfProduct.size)
             assertTrue(criterionOfProduct.contains("memory"))
             assertTrue(criterionOfProduct.contains("name"))
@@ -25,17 +20,15 @@ class isValidCategoryTest {
         }
 
         @Test
-        fun isValidCriterionForProductTrueWhenCategoryExists()
-        {
-            assertTrue(utils.isValidCriterionForProduct("id"))
-            assertTrue(utils.isValidCriterionForProduct("price"))
-            assertTrue(utils.isValidCriterionForProduct("orderid"))
-            assertTrue(utils.isValidCriterionForProduct("ID"))
+        fun isValidCriterionForProductTrueWhenCategoryExists() {
+            assertTrue(isValidCriterionForProduct("id"))
+            assertTrue(isValidCriterionForProduct("price"))
+            assertTrue(isValidCriterionForProduct("orderid"))
+            assertTrue(isValidCriterionForProduct("ID"))
         }
 
         @Test
-        fun isValidCriterionForProductFalseWhenCategoryDoesNotExist()
-        {
+        fun isValidCriterionForProductFalseWhenCategoryDoesNotExist() {
             assertFalse(isValidCriterionForProduct("i"))
             assertFalse(isValidCriterionForProduct("oed"))
             assertFalse(isValidCriterionForProduct(""))
@@ -43,11 +36,9 @@ class isValidCategoryTest {
     }
 
     @Nested
-    inner class isValidCriterioForOrderTest
-    {
+    inner class IsValidCriterioForOrderTest {
         @Test
-        fun isValidCriterionForOrderReturnsFullCriterionSet()
-        {
+        fun isValidCriterionForOrderReturnsFullCriterionSet() {
             assertEquals(2, criterionOfOrder.size)
 
             assertTrue(criterionOfOrder.contains("name"))
@@ -57,15 +48,13 @@ class isValidCategoryTest {
         }
 
         @Test
-        fun isValidCriterionForOrderTrueWhenCategoryExists()
-        {
+        fun isValidCriterionForOrderTrueWhenCategoryExists() {
             assertTrue(isValidCriterionForOrder("id"))
             assertTrue(isValidCriterionForOrder("ID"))
         }
 
         @Test
-        fun isValidCriterionForOrderFalseWhenCategoryDoesNotExist()
-        {
+        fun isValidCriterionForOrderFalseWhenCategoryDoesNotExist() {
             assertFalse(isValidCriterionForOrder("i"))
             assertFalse(isValidCriterionForOrder("oed"))
             assertFalse(isValidCriterionForOrder(""))

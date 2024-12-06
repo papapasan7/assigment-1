@@ -11,7 +11,7 @@ package utils
 fun readInt(prompt: String?): Int {
     while (true) {
         print(prompt)
-        val input = readLine()
+        val input = readlnOrNull()
         try {
             return input?.toInt() ?: throw NumberFormatException("Input is null")
         } catch (e: NumberFormatException) {
@@ -19,6 +19,7 @@ fun readInt(prompt: String?): Int {
         }
     }
 }
+
 /**
  * Reads a double input from the user.
  * Continues to prompt until a valid decimal number is entered.
@@ -31,7 +32,7 @@ fun readInt(prompt: String?): Int {
 fun readDouble(prompt: String?): Double {
     while (true) {
         print(prompt)
-        val input = readLine()
+        val input = readlnOrNull()
         try {
             return input?.toDouble() ?: throw NumberFormatException("Input is null")
         } catch (e: NumberFormatException) {
@@ -39,6 +40,7 @@ fun readDouble(prompt: String?): Double {
         }
     }
 }
+
 /**
  * Reads a string input from the user.
  * Continues to prompt until a non-empty string is entered.
@@ -51,7 +53,7 @@ fun readDouble(prompt: String?): Double {
 fun readString(prompt: String?): String {
     while (true) {
         print(prompt)
-        val input = readLine()
+        val input = readlnOrNull()
         if (!input.isNullOrBlank()) {
             return input
         } else {
