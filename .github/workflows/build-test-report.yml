@@ -113,4 +113,4 @@ jobs:
         uses: actions/upload-artifact@v4.4.2
         with:
           name: License Report
-          path: build/reports/depedndency-license
+          path: build/reports/depedndency-license/index.html
