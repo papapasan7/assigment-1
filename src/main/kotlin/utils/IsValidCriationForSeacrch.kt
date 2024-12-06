@@ -4,9 +4,7 @@ package utils
  *
  * @see isValidCriterionForProductSearch
  */
-val criterionOfProductSearch = setOf("memory", "name","id","price","orderid")
-
-
+val criterionOfProductSearch = setOf("memory", "name", "id", "price", "orderid")
 
 /**
  * Validates whether a given category is a valid criterion for product search.
@@ -19,5 +17,4 @@ val criterionOfProductSearch = setOf("memory", "name","id","price","orderid")
  */
 fun isValidCriterionForProductSearch(categoryToCheck: String?): Boolean =
 
-        criterionOfProductSearch.any { categoryToCheck?.lowercase()?.contains(it) ?: false }
-
+    criterionOfProductSearch.any { categoryToCheck?.lowercase()?.contains(it) ?: false }

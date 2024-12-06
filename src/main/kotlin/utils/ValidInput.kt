@@ -12,14 +12,15 @@ package utils
 fun readValidSize(prompt: String?): Int {
     var input = readInt(prompt)
     do {
-        if (isValidSize(input))
+        if (isValidSize(input)) {
             return input
-        else {
+        } else {
             print("Invalid category $input. \n  Please try again: ")
             input = readInt(prompt)
         }
     } while (true)
 }
+
 /**
  * Reads and validates a price input from the user.
  * Continues to prompt until the input is greater than 0.
@@ -33,14 +34,15 @@ fun readValidSize(prompt: String?): Int {
 fun readValidPrice(prompt: String?): Double {
     var input = readDouble(prompt)
     do {
-        if (isValidPrice(input))
+        if (isValidPrice(input)) {
             return input
-        else {
+        } else {
             print("Error, price must be more then 0 $input. \n  Please try again: ")
             input = readDouble(prompt)
         }
     } while (true)
 }
+
 /**
  * Reads and validates a product criterion input from the user.
  * Continues to prompt until the input matches one of the valid product criteria.
@@ -54,14 +56,15 @@ fun readValidPrice(prompt: String?): Double {
 fun readValidCategoryForProduct(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCriterionForProduct(input))
+        if (isValidCriterionForProduct(input)) {
             return input
-        else {
+        } else {
             print("Invalid criterion $input.  Please try again: ")
             input = readString(prompt)
         }
     } while (true)
 }
+
 /**
  * Reads and validates an order criterion input from the user.
  * Continues to prompt until the input matches one of the valid order criteria.
@@ -75,14 +78,15 @@ fun readValidCategoryForProduct(prompt: String?): String {
 fun readValidCategoryForOrder(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCriterionForOrder(input))
+        if (isValidCriterionForOrder(input)) {
             return input
-        else {
+        } else {
             print("Invalid criterion $input.  Please try again: ")
             input = readString(prompt)
         }
     } while (true)
 }
+
 /**
  * Reads and validates a product search criterion input from the user.
  * Continues to prompt until the input matches one of the valid product search criteria.
@@ -96,9 +100,9 @@ fun readValidCategoryForOrder(prompt: String?): String {
 fun readValidCriterionForProductSearch(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCriterionForProductSearch(input))
+        if (isValidCriterionForProductSearch(input)) {
             return input
-        else {
+        } else {
             print("Invalid criterion $input.  Please try again: ")
             input = readString(prompt)
         }
@@ -118,9 +122,9 @@ fun readValidCriterionForProductSearch(prompt: String?): String {
 fun readValidCriterionForOrderSearch(prompt: String?): String {
     var input = readString(prompt)
     do {
-        if (isValidCriterionForOrder(input))
+        if (isValidCriterionForOrder(input)) {
             return input
-        else {
+        } else {
             print("Invalid criterion $input.  Please try again: ")
             input = readString(prompt)
         }

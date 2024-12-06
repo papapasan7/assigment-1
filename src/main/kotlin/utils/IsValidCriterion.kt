@@ -5,13 +5,14 @@ package utils
  *
  * @see isValidCriterionForProduct
  */
-val criterionOfProduct = setOf("memory", "name","id","price")
+val criterionOfProduct = setOf("memory", "name", "id", "price")
+
 /**
  * A set containing valid criteria for sorting or filtering orders.
  *
  * @see isValidCriterionForOrder
  */
-val criterionOfOrder = setOf( "name","id")
+val criterionOfOrder = setOf("name", "id")
 
 /**
  * Validates whether a given category is a valid criterion for products.
@@ -24,7 +25,8 @@ val criterionOfOrder = setOf( "name","id")
  */
 fun isValidCriterionForProduct(categoryToCheck: String?): Boolean =
 
-        criterionOfProduct.any { categoryToCheck?.lowercase()?.contains(it) ?: false }
+    criterionOfProduct.any { categoryToCheck?.lowercase()?.contains(it) ?: false }
+
 /**
  * Validates whether a given category is a valid criterion for orders.
  *
@@ -37,4 +39,4 @@ fun isValidCriterionForProduct(categoryToCheck: String?): Boolean =
 
 fun isValidCriterionForOrder(categoryToCheck: String?): Boolean =
 
-        criterionOfOrder.any { categoryToCheck?.lowercase()?.contains(it) ?: false }
+    criterionOfOrder.any { categoryToCheck?.lowercase()?.contains(it) ?: false }
