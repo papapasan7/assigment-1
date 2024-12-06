@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.20"
     jacoco
     id("org.jlleitschuh.gradle.ktlint") version "11.5.1"
+    id("com.github.jk1.dependency-license-report") version "2.4"
     application
 }
 tasks.jar {
