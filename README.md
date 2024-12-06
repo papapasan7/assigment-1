@@ -23,7 +23,7 @@ Whether you're managing a small warehouse or a large-scale storage facility, the
 - Manual code review and linting have been performed to improve code quality.
 - Automatic linting with Ktlint has been applied to enforce modern coding standards.
 
-## Documentation
+   ## Documentation
 
 - Every line of code is thoroughly documented to enhance readability and maintainability.
 - For all functions, detailed **KDoc** comments have been created, providing clear descriptions of their purposes and functionalities.
@@ -31,14 +31,14 @@ Whether you're managing a small warehouse or a large-scale storage facility, the
 - A **License Report** is included to ensure clarity on third-party dependencies
 
 
-  ## Libraries and Plugins Used
+   ## Libraries and Plugins Used
 
-### Libraries
+   ### Libraries
 - [JUnit 5](https://junit.org/junit5/) - A framework for writing and running unit tests.
 - [XStream 1.4.18](https://x-stream.github.io/) - A library for converting objects to XML and vice versa.
 - [Dokka](https://kotlinlang.org/docs/dokka-overview.html) - A Kotlin documentation generator.
 
-### Plugins
+  ### Plugins
 - [Dokka Plugin (1.9.20)](https://kotlinlang.org/docs/dokka-overview.html) - For generating project documentation in various formats, including HTML.
 - [Ktlint Plugin (11.5.1)](https://github.com/JLLeitschuh/ktlint-gradle) - For enforcing Kotlin code style and standards.
 - [Dependency License Report (2.4)](https://github.com/jk1/Gradle-License-Report) - For generating a report of dependencies and their licenses.
