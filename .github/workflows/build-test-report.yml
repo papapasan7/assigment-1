@@ -106,7 +106,7 @@ jobs:
         
        # Runs the Gradle checkLicense chiking
       - name: Generate License Report
-        run: ./gradlew licenseReport
+        run: ./gradlew generateLicenseReport
         
         # Builds a zip file checkLicense report
       - name: Archive License Report
