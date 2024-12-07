@@ -75,7 +75,6 @@ class OrderAPITest {
             assertEquals(5, populatedOrders!!.numberOfOrder())
             val result = populatedOrders!!.searchByCriteria("id", 4)
             assertEquals(result.first(), newOrder)
-
         }
 
         @Test
