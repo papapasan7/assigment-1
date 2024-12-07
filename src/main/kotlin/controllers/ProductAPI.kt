@@ -19,7 +19,7 @@ class ProductAPI(serializerType: Serializer) {
      * List of all products.
      */
     internal var products = mutableListOf<Product>()
-    private var idGen: Int = 0
+    var idGen: Int = 0
 
     /**
      * Generates a new unique ID for a product.
@@ -29,6 +29,16 @@ class ProductAPI(serializerType: Serializer) {
     private fun idCreate() = idGen++
 
     /**
+     * Change idGen if product were loaded
+     *
+     *
+     */
+    private fun updateIdGEn() {
+        val maxID = products.maxOfOrNull { product -> product.productID } ?: -1
+        idGen = maxID + 1
+    }
+
+    /**
      * Loads products from the storage.
      *
      * @throws Exception If an error occurs during deserialization.
@@ -36,6 +46,7 @@ class ProductAPI(serializerType: Serializer) {
     @Throws(Exception::class)
     fun load() {
         products = serializer.read() as ArrayList<Product>
+        updateIdGEn()
     }
 
     /**
@@ -426,6 +437,6 @@ class ProductAPI(serializerType: Serializer) {
     private fun formatListString(productToFormat: List<Product>): String =
         productToFormat
             .joinToString(separator = "\n\n") { product ->
-                products.indexOf(product).toString() + ": " + product.toString()
+                "Product ID = ${product.productID} " + "Info: " + product.toString()
             }
 }

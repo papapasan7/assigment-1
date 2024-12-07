@@ -72,8 +72,12 @@ fun mainMenu(): Int {
        > ║      by order                    ║
        > ╟──────────────────────────────────╢
        > ║   Save and load aria             ║
-       > ║   19) load orders                ║
-       > ║   20) load products              ║
+       > ║   19) load orders (Uploading     ║
+         ║    orders is allowed before      ║
+         ║    placing the first order )     ║       
+       > ║   20) load products (Uploading   ║
+         ║    product is allowed before     ║
+         ║    placing the first product )   ║   
        > ║   21) save orders                ║
        > ║   22) save products              ║
        > ╚══════════════════════════════════╝
@@ -140,10 +144,14 @@ fun saveOrder() {
  * @see saveOrder
  */
 fun loadOrder() {
-    try {
-        OrderAPI.load()
-    } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
+    if (OrderAPI.idGen <= 0) {
+        try {
+            OrderAPI.load()
+        } catch (e: Exception) {
+            System.err.println("Error reading from file: $e")
+        }
+    } else {
+        println("Uploading orders is allowed before placing the first order. You have already created an order!!!")
     }
 }
 
@@ -168,10 +176,14 @@ fun saveProduct() {
  * @see saveProduct
  */
 fun loadProduct() {
-    try {
-        ProductAPI.load()
-    } catch (e: Exception) {
-        System.err.println("Error reading from file: $e")
+    if (ProductAPI.idGen <= 0) {
+        try {
+            ProductAPI.load()
+        } catch (e: Exception) {
+            System.err.println("Error reading from file: $e")
+        }
+    } else {
+        println("Uploading product is allowed before placing the first order. You have already created an product!!!")
     }
 }
 

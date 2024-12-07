@@ -22,7 +22,7 @@ class OrderAPI(private val productAPI: ProductAPI, serializerType: Serializer) {
     /**
      * Generator for unique order IDs.
      */
-    private var idGen: Int = 0
+    var idGen: Int = 0
 
     /**
      * Generates a new unique ID for an order.
@@ -30,6 +30,16 @@ class OrderAPI(private val productAPI: ProductAPI, serializerType: Serializer) {
      * @return The next unique ID.
      */
     private fun idCreate() = idGen++
+
+    /**
+     * Change idGen if product were loaded
+     *
+     *
+     */
+    private fun updateIdGEn() {
+        val maxID = orders.maxOfOrNull { order -> order.orderID } ?: -1
+        idGen = maxID + 1
+    }
 
     /**
      * Loads orders from the storage.
@@ -40,6 +50,7 @@ class OrderAPI(private val productAPI: ProductAPI, serializerType: Serializer) {
     @Throws(Exception::class)
     fun load() {
         orders = serializer.read() as ArrayList<Order>
+        updateIdGEn()
     }
 
     /**
@@ -332,11 +343,11 @@ class OrderAPI(private val productAPI: ProductAPI, serializerType: Serializer) {
         orderToFormat.joinToString(separator = "\n\n") { order ->
             val productFind = productAPI.products.filter { product -> product.orderID == order.orderID }
             if (productFind.isEmpty()) {
-                orderToFormat.indexOf(order).toString() + ": " + order.toString() + "\n No products in this order"
+                "Order ID = ${order.orderID} " + "Info: " + order.toString() + "\n No products in this order"
             } else {
-                orderToFormat.indexOf(order).toString() + ": " + order.toString() + "\n product of ${order.customerName} \n" +
+                "Order ID = ${order.orderID} " + "Info: " + order.toString() + "\n product of ${order.customerName} \n" +
                     productFind.joinToString(separator = "\n") { product ->
-                        "    " + productFind.indexOf(product).toString() + ": " + product.toString()
+                        "    " + "Product ID = ${product.productID} " + "Info: " + product.toString()
                     }
             }
         }
