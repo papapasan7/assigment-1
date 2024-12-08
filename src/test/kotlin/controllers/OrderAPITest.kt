@@ -71,6 +71,7 @@ class OrderAPITest {
         fun `adding a Order to a populated list adds to ArrayList`() {
             val newOrder = Order(4, "Tolic", true)
             assertEquals(4, populatedOrders!!.numberOfOrder())
+            assertFalse(populatedOrders!!.validIdGen())
             assertTrue(populatedOrders!!.addOrder(newOrder))
             assertEquals(5, populatedOrders!!.numberOfOrder())
             val result = populatedOrders!!.searchByCriteria("id", 4)
@@ -498,6 +499,7 @@ class OrderAPITest {
     fun `saving and loading an loaded collection in XML doesn't loose data`() {
         // Storing 3 notes to the notes.XML file.
         val storingOrder = OrderAPI(productPopulate!!, XMLSerializer(File("orders.xml")))
+        assertTrue(storingOrder.validIdGen())
         storingOrder.addOrder(orderInactive1!!)
         storingOrder.addOrder(orderActive1!!)
         storingOrder.store()

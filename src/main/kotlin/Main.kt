@@ -144,7 +144,7 @@ fun saveOrder() {
  * @see saveOrder
  */
 fun loadOrder() {
-    if (OrderAPI.idGen <= 0) {
+    if (OrderAPI.validIdGen()) {
         try {
             OrderAPI.load()
         } catch (e: Exception) {
@@ -176,7 +176,7 @@ fun saveProduct() {
  * @see saveProduct
  */
 fun loadProduct() {
-    if (ProductAPI.idGen <= 0) {
+    if (ProductAPI.validIdGen()) {
         try {
             ProductAPI.load()
         } catch (e: Exception) {

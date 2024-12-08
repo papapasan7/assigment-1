@@ -22,7 +22,7 @@ class OrderAPI(private val productAPI: ProductAPI, serializerType: Serializer) {
     /**
      * Generator for unique order IDs.
      */
-    var idGen: Int = 0
+    private var idGen: Int = 0
 
     /**
      * Generates a new unique ID for an order.
@@ -40,6 +40,14 @@ class OrderAPI(private val productAPI: ProductAPI, serializerType: Serializer) {
         val maxID = orders.maxOfOrNull { order -> order.orderID } ?: -1
         idGen = maxID + 1
     }
+
+    /**
+     * Checks whether the order was created or not
+     *
+     *@return `true` if the order was  created, otherwise `false`.
+     */
+    fun validIdGen(): Boolean =
+        idGen == 0
 
     /**
      * Loads orders from the storage.

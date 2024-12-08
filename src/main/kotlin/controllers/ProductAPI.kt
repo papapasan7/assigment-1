@@ -19,7 +19,7 @@ class ProductAPI(serializerType: Serializer) {
      * List of all products.
      */
     internal var products = mutableListOf<Product>()
-    var idGen: Int = 0
+    private var idGen: Int = 0
 
     /**
      * Generates a new unique ID for a product.
@@ -37,6 +37,14 @@ class ProductAPI(serializerType: Serializer) {
         val maxID = products.maxOfOrNull { product -> product.productID } ?: -1
         idGen = maxID + 1
     }
+
+    /**
+     * Checks whether the product was created or not
+     *
+     *@return `true` if the product was  created, otherwise `false`.
+     */
+    fun validIdGen(): Boolean =
+        idGen == 0
 
     /**
      * Loads products from the storage.
