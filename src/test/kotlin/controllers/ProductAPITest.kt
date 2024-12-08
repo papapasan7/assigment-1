@@ -75,6 +75,7 @@ class ProductAPITest {
             assertEquals(5, populateProduct!!.numberOfProduct())
             val result = populateProduct!!.searchByCriteria("id", 4)
             assertEquals(result.first(), newProduct)
+            assertFalse(populateProduct!!.validIdGen())
         }
 
         @Test
@@ -612,8 +613,10 @@ class ProductAPITest {
         fun `saving and loading an loaded collection in XML doesn't loose data`() {
             // Storing 3 notes to the notes.XML file.
             val storingProduct = ProductAPI(XMLSerializer(File("products.xml")))
+            assertTrue(storingProduct.validIdGen())
             storingProduct.addProduct(notStoredProduct1!!)
             storingProduct.addProduct(storedProduct1!!)
+            assertFalse(storingProduct.validIdGen())
             storingProduct.store()
 
             // Loading notes.xml into a different collection
